@@ -1442,6 +1442,22 @@
         init();
 
     </script>
+    <script>
+        // Disable right-click
+        document.addEventListener("contextmenu", (e) => e.preventDefault());
+
+        // Disable common inspect shortcuts
+        document.addEventListener("keydown", (e) => {
+            if (e.key === "F12" ||
+                (e.ctrlKey && e.shiftKey && e.key === "I") ||
+                (e.ctrlKey && e.shiftKey && e.key === "J") ||
+                (e.ctrlKey && e.key === "U")) {
+                e.preventDefault();
+                alert("Inspect Disabled 🚫");
+            }
+        });
+    </script>
+
 </body>
 
 </html>
