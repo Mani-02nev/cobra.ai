@@ -18,10 +18,6 @@
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="icon" type="image/png" href="./fav.png">
     <style>
@@ -418,74 +414,6 @@
             opacity: 0;
             pointer-events: none;
         }
-
-        /* Pro Badge */
-        .pro-badge {
-            display: inline-flex;
-            align-items: center;
-            padding: 2px 8px;
-            background: linear-gradient(135deg, #fbbf24, #f59e0b);
-            color: #000;
-            font-size: 10px;
-            font-weight: 700;
-            border-radius: 12px;
-            margin-left: 6px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        /* Voice Recording Animation */
-        .voice-recording {
-            animation: pulse-ring 1.5s ease-out infinite;
-        }
-
-        @keyframes pulse-ring {
-            0% {
-                box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
-            }
-
-            70% {
-                box-shadow: 0 0 0 10px rgba(16, 185, 129, 0);
-            }
-
-            100% {
-                box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
-            }
-        }
-
-        /* Usage Progress Bar */
-        .usage-progress {
-            height: 4px;
-            background: var(--bg-tertiary);
-            border-radius: 2px;
-            overflow: hidden;
-        }
-
-        .usage-progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--accent), #34d399);
-            transition: width 0.3s ease;
-        }
-
-        /* User Avatar */
-        .user-avatar {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--accent), #34d399);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: 600;
-            font-size: 14px;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-
-        .user-avatar:hover {
-            transform: scale(1.05);
-        }
     </style>
 </head>
 
@@ -608,16 +536,6 @@
                     <line x1="12" y1="15" x2="12" y2="3"></line>
                 </svg>
             </button>
-            <!-- Auth UI -->
-            <div id="auth-container" class="flex items-center gap-2">
-                <button id="login-btn"
-                    class="hidden px-4 py-2 bg-[var(--accent)] text-white rounded-lg hover:bg-[var(--accent-hover)] transition-colors text-sm font-medium">
-                    Login
-                </button>
-                <div id="user-profile" class="hidden flex items-center gap-2">
-                    <div id="user-avatar" class="user-avatar"></div>
-                </div>
-            </div>
         </header>
 
         <main class="flex-1 flex flex-col overflow-hidden">
@@ -720,27 +638,6 @@
                             </svg></button>
                         <textarea id="userQuestion" rows="1" placeholder="Ask CobrΔ anything..."
                             class="flex-1 bg-transparent text-[var(--text-primary)] focus:outline-none resize-none px-2 max-h-48 self-center"></textarea>
-                        <button id="voice-input-btn"
-                            class="p-2 rounded-lg text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-tertiary)] transition-colors self-end relative"
-                            title="Voice Input (Pro)">
-                            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
-                                <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
-                                <line x1="12" y1="19" x2="12" y2="23"></line>
-                                <line x1="8" y1="23" x2="16" y2="23"></line>
-                            </svg>
-                        </button>
-                        <button id="voice-output-toggle"
-                            class="hidden p-2 rounded-lg text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-tertiary)] transition-colors self-end"
-                            title="Toggle Voice Output">
-                            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-                                <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
-                                <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
-                            </svg>
-                        </button>
                         <button id="askBtn"
                             class="bg-[var(--accent)] hover:bg-[var(--accent-hover)] text-white p-2 rounded-lg ml-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed self-end"><svg
                                 xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none"
@@ -771,34 +668,6 @@
                     </svg></button>
             </div>
             <div class="p-6 space-y-6">
-                <!-- Account Section -->
-                <div id="account-section" class="hidden">
-                    <h3 class="font-semibold mb-3">Account</h3>
-                    <div class="bg-[var(--bg-secondary)] rounded-lg p-4 mb-4">
-                        <div class="flex items-center justify-between mb-2">
-                            <span class="text-sm text-[var(--text-secondary)]">Email</span>
-                            <span id="user-email-display" class="text-sm font-medium"></span>
-                        </div>
-                        <div class="flex items-center justify-between">
-                            <span class="text-sm text-[var(--text-secondary)]">Plan</span>
-                            <span id="user-plan-display" class="text-sm font-medium"></span>
-                        </div>
-                    </div>
-                    <div id="free-usage-section" class="hidden mb-4">
-                        <div class="flex items-center justify-between mb-2">
-                            <span class="text-sm text-[var(--text-secondary)]">Chats Used</span>
-                            <span id="usage-count-display" class="text-sm font-medium">0/3</span>
-                        </div>
-                        <div class="usage-progress">
-                            <div id="usage-progress-bar" class="usage-progress-fill" style="width: 0%"></div>
-                        </div>
-                    </div>
-                    <button id="logout-btn"
-                        class="w-full py-2 px-4 bg-[var(--bg-tertiary)] text-[var(--text-primary)] rounded-lg hover:bg-[var(--danger-hover)] hover:text-[var(--danger-text)] transition-colors">
-                        Logout
-                    </button>
-                </div>
-
                 <div class="flex items-center justify-between">
                     <label for="theme-toggle" class="font-medium">Light Mode</label>
                     <label class="switch"><input type="checkbox" id="theme-toggle"><span class="slider"></span></label>
@@ -927,144 +796,10 @@
         </div>
     </div>
 
-    <!-- Auth Modal -->
-    <div id="auth-modal" class="hidden fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-md z-50">
-        <div
-            class="m-4 bg-[var(--bg-glass)] backdrop-blur-xl border border-[var(--border-primary)] rounded-lg shadow-2xl text-[var(--text-primary)]">
-            <div class="p-6">
-                <h3 class="text-2xl font-bold mb-6 text-center">Welcome to CobrΔ AI</h3>
-                <div id="auth-tabs" class="flex gap-2 mb-6">
-                    <button id="tab-login"
-                        class="flex-1 py-2 px-4 rounded-lg bg-[var(--accent)] text-white font-medium">Login</button>
-                    <button id="tab-signup"
-                        class="flex-1 py-2 px-4 rounded-lg bg-[var(--bg-tertiary)] text-[var(--text-secondary)] font-medium">Sign
-                        Up</button>
-                </div>
-                <div id="login-form" class="space-y-4">
-                    <input type="email" id="login-email" placeholder="Email"
-                        class="w-full p-3 rounded-lg bg-[var(--bg-input)] border border-[var(--border-primary)] focus:border-[var(--accent)] outline-none">
-                    <input type="password" id="login-password" placeholder="Password"
-                        class="w-full p-3 rounded-lg bg-[var(--bg-input)] border border-[var(--border-primary)] focus:border-[var(--accent)] outline-none">
-                    <button id="login-submit-btn"
-                        class="w-full py-3 bg-[var(--accent)] text-white rounded-lg hover:bg-[var(--accent-hover)] font-medium">Login</button>
-                </div>
-                <div id="signup-form" class="hidden space-y-4">
-                    <input type="text" id="signup-name" placeholder="Full Name"
-                        class="w-full p-3 rounded-lg bg-[var(--bg-input)] border border-[var(--border-primary)] focus:border-[var(--accent)] outline-none">
-                    <input type="email" id="signup-email" placeholder="Email"
-                        class="w-full p-3 rounded-lg bg-[var(--bg-input)] border border-[var(--border-primary)] focus:border-[var(--accent)] outline-none">
-                    <input type="password" id="signup-password" placeholder="Password (min 6 characters)"
-                        class="w-full p-3 rounded-lg bg-[var(--bg-input)] border border-[var(--border-primary)] focus:border-[var(--accent)] outline-none">
-                    <button id="signup-submit-btn"
-                        class="w-full py-3 bg-[var(--accent)] text-white rounded-lg hover:bg-[var(--accent-hover)] font-medium">Create
-                        Account</button>
-                </div>
-                <div class="relative my-6">
-                    <div class="absolute inset-0 flex items-center">
-                        <div class="w-full border-t border-[var(--border-primary)]"></div>
-                    </div>
-                    <div class="relative flex justify-center text-sm"><span
-                            class="px-2 bg-[var(--bg-glass)] text-[var(--text-secondary)]">Or continue with</span></div>
-                </div>
-                <button id="google-signin-btn"
-                    class="w-full py-3 bg-white text-gray-700 rounded-lg hover:bg-gray-100 font-medium flex items-center justify-center gap-2 border border-gray-300">
-                    <svg class="w-5 h-5" viewBox="0 0 24 24">
-                        <path fill="#4285F4"
-                            d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
-                        <path fill="#34A853"
-                            d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
-                        <path fill="#FBBC05"
-                            d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" />
-                        <path fill="#EA4335"
-                            d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
-                    </svg>
-                    Sign in with Google
-                </button>
-                <button id="close-auth-btn"
-                    class="w-full mt-4 py-2 text-[var(--text-secondary)] hover:text-[var(--text-primary)]">Close</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Upgrade Modal -->
-    <div id="upgrade-modal"
-        class="hidden fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-md z-50">
-        <div
-            class="m-4 bg-[var(--bg-glass)] backdrop-blur-xl border border-[var(--border-primary)] rounded-lg shadow-2xl text-[var(--text-primary)]">
-            <div class="p-6 text-center">
-                <div
-                    class="mx-auto w-16 h-16 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center mb-4">
-                    <svg class="w-8 h-8 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
-                    </svg>
-                </div>
-                <h3 class="text-2xl font-bold mb-2">Upgrade to Pro</h3>
-                <p class="text-[var(--text-secondary)] mb-6">Unlock unlimited chats and voice assistant features</p>
-                <div class="bg-[var(--bg-secondary)] rounded-lg p-4 mb-6 text-left">
-                    <div class="flex items-center gap-2 mb-2">
-                        <svg class="w-5 h-5 text-[var(--accent)]" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd"
-                                d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                clip-rule="evenodd" />
-                        </svg>
-                        <span>Unlimited chats</span>
-                    </div>
-                    <div class="flex items-center gap-2 mb-2">
-                        <svg class="w-5 h-5 text-[var(--accent)]" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd"
-                                d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                clip-rule="evenodd" />
-                        </svg>
-                        <span>Voice input & output</span>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <svg class="w-5 h-5 text-[var(--accent)]" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd"
-                                d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                clip-rule="evenodd" />
-                        </svg>
-                        <span>Priority support</span>
-                    </div>
-                </div>
-                <div class="text-3xl font-bold mb-6">$9.99<span
-                        class="text-lg text-[var(--text-secondary)]">/month</span></div>
-                <button id="upgrade-now-btn"
-                    class="w-full py-3 bg-gradient-to-r from-yellow-400 to-orange-500 text-black rounded-lg hover:from-yellow-500 hover:to-orange-600 font-bold">Upgrade
-                    Now</button>
-                <button id="close-upgrade-btn"
-                    class="w-full mt-3 py-2 text-[var(--text-secondary)] hover:text-[var(--text-primary)]">Maybe
-                    Later</button>
-            </div>
-        </div>
-    </div>
-
     <script type="module">
         import { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold } from "https://cdn.jsdelivr.net/npm/@google/generative-ai/+esm";
 
         const API_KEY = "AIzaSyAg7F8FCeoquqdCsGobVnA371XMGgnLCFE";
-
-        // Firebase Configuration - Replace with your actual config
-        const firebaseConfig = {
-            apiKey: "AIzaSyAv1Qv2-w1BjORaturjykg9on_zQC4MzrM",
-            authDomain: "cobra02.firebaseapp.com",
-            projectId: "cobra02",
-            storageBucket: "cobra02.firebasestorage.app",
-            messagingSenderId: "34782284604",
-            appId: "1:34782284604:web:eac6a16832c7fbde0b2c39",
-            measurementId: "G-RMHFY93GFX"
-        };
-
-        // Initialize Firebase
-        let auth, db;
-        try {
-            firebase.initializeApp(firebaseConfig);
-            auth = firebase.auth();
-            db = firebase.firestore();
-        } catch (e) {
-            console.warn("Firebase not configured:", e);
-        }
 
         // --- Global State ---
         let currentChatId = null;
@@ -1074,13 +809,6 @@
         let genAI;
         let generativeModel;
         let attachedFileData = null;
-        let currentUser = null;
-        let userTier = 'free'; // 'free' or 'pro'
-        let chatCount = 0;
-        let isRecording = false;
-        let recognition = null;
-        let speechSynthesis = window.speechSynthesis;
-        let voiceOutputEnabled = false;
 
         const markdownConverter = new showdown.Converter({ tables: true, strikethrough: true, simplifiedAutoLink: true });
 
@@ -1135,37 +863,6 @@
             manageSubscriptionBtn: document.getElementById('manage-subscription-btn'),
             subscriptionModal: document.getElementById('subscription-modal'),
             closeSubscriptionBtn: document.getElementById('close-subscription-btn'),
-
-            // Auth elements
-            loginBtn: document.getElementById('login-btn'),
-            userProfile: document.getElementById('user-profile'),
-            userAvatar: document.getElementById('user-avatar'),
-            authModal: document.getElementById('auth-modal'),
-            closeAuthBtn: document.getElementById('close-auth-btn'),
-            tabLogin: document.getElementById('tab-login'),
-            tabSignup: document.getElementById('tab-signup'),
-            loginForm: document.getElementById('login-form'),
-            signupForm: document.getElementById('signup-form'),
-            loginEmail: document.getElementById('login-email'),
-            loginPassword: document.getElementById('login-password'),
-            loginSubmitBtn: document.getElementById('login-submit-btn'),
-            signupName: document.getElementById('signup-name'),
-            signupEmail: document.getElementById('signup-email'),
-            signupPassword: document.getElementById('signup-password'),
-            signupSubmitBtn: document.getElementById('signup-submit-btn'),
-            googleSigninBtn: document.getElementById('google-signin-btn'),
-            logoutBtn: document.getElementById('logout-btn'),
-            accountSection: document.getElementById('account-section'),
-            userEmailDisplay: document.getElementById('user-email-display'),
-            userPlanDisplay: document.getElementById('user-plan-display'),
-            freeUsageSection: document.getElementById('free-usage-section'),
-            usageCountDisplay: document.getElementById('usage-count-display'),
-            usageProgressBar: document.getElementById('usage-progress-bar'),
-            upgradeModal: document.getElementById('upgrade-modal'),
-            upgradeNowBtn: document.getElementById('upgrade-now-btn'),
-            closeUpgradeBtn: document.getElementById('close-upgrade-btn'),
-            voiceInputBtn: document.getElementById('voice-input-btn'),
-            voiceOutputToggle: document.getElementById('voice-output-toggle'),
         };
 
         // --- Event Listeners ---
@@ -1216,25 +913,6 @@
         dom.fileUploadInput.addEventListener('change', handleFileSelect);
         dom.removeAttachmentBtn.addEventListener('click', removeAttachment);
 
-        // Auth event listeners
-        dom.loginBtn.addEventListener('click', () => toggleModal(dom.authModal, true));
-        dom.closeAuthBtn.addEventListener('click', () => toggleModal(dom.authModal, false));
-        dom.tabLogin.addEventListener('click', () => switchAuthTab('login'));
-        dom.tabSignup.addEventListener('click', () => switchAuthTab('signup'));
-        dom.loginSubmitBtn.addEventListener('click', handleLogin);
-        dom.signupSubmitBtn.addEventListener('click', handleSignup);
-        dom.googleSigninBtn.addEventListener('click', handleGoogleSignin);
-        dom.logoutBtn.addEventListener('click', handleLogout);
-        dom.userAvatar.addEventListener('click', () => toggleModal(dom.settingsModal, true));
-
-        // Upgrade modal
-        dom.upgradeNowBtn.addEventListener('click', handleUpgrade);
-        dom.closeUpgradeBtn.addEventListener('click', () => toggleModal(dom.upgradeModal, false));
-
-        // Voice features
-        dom.voiceInputBtn.addEventListener('click', handleVoiceInput);
-        dom.voiceOutputToggle.addEventListener('click', toggleVoiceOutput);
-
         // --- Helpers ---
         function toggleModal(modal, show) {
             if (show) {
@@ -1245,9 +923,7 @@
                 if (dom.settingsModal.classList.contains('hidden') &&
                     dom.projectModal.classList.contains('hidden') &&
                     dom.archiveModal.classList.contains('hidden') &&
-                    dom.subscriptionModal.classList.contains('hidden') &&
-                    dom.authModal.classList.contains('hidden') &&
-                    dom.upgradeModal.classList.contains('hidden')) {
+                    dom.subscriptionModal.classList.contains('hidden')) {
                     dom.settingsModalOverlay.classList.add('hidden');
                 }
             }
@@ -1403,7 +1079,6 @@
 
         // --- Main Chat Funcs ---
         function startNewChat(isPersistent) {
-            if (!checkChatLimit()) return;
             currentChatId = isPersistent ? crypto.randomUUID() : 'temp';
             clearChatView();
             if (window.innerWidth < 768) toggleMobileSidebar();
@@ -1429,33 +1104,9 @@
             if (!finalQuestion && !attachedFileData) return;
 
             if (currentChatId && currentChatId !== 'temp' && !getChatTitle(currentChatId)) {
-                saveChatTitle(currentChatId, finalQuestion.substring(0, 40) || 'New Chat');
-                renderChatList();
-                // Increment chat count for free users on first message
-                if (userTier === 'free' && currentUser) {
-                    chatCount++;
-                    updateUsageDisplay();
-                    try {
-                        await db.collection('users').doc(currentUser.uid).update({ chatCount });
-                    } catch (e) {
-                        console.error('Error updating chat count:', e);
-                    }
-                }
+                saveChatTitle(currentChatId, finalQuestion.substring(0, 40) || 'New Chat'); renderChatList();
             } else if (!currentChatId) {
-                if (!checkChatLimit()) return;
-                currentChatId = crypto.randomUUID();
-                saveChatTitle(currentChatId, finalQuestion.substring(0, 40) || 'New Conversation');
-                renderChatList();
-                // Increment chat count for free users
-                if (userTier === 'free' && currentUser) {
-                    chatCount++;
-                    updateUsageDisplay();
-                    try {
-                        await db.collection('users').doc(currentUser.uid).update({ chatCount });
-                    } catch (e) {
-                        console.error('Error updating chat count:', e);
-                    }
-                }
+                currentChatId = crypto.randomUUID(); saveChatTitle(currentChatId, finalQuestion.substring(0, 40) || 'New Conversation'); renderChatList();
             }
 
             let chatHistory = loadChatHistory(currentChatId);
@@ -1479,7 +1130,7 @@
             try {
                 const persona = document.getElementById('persona-select').value;
                 const temperature = currentChatMode === 'creative' ? 1.0 : (currentChatMode === 'web' ? 0.3 : 0.8);
-                generativeModel = genAI.getGenerativeModel({ model: "gemini-2.0-flash-exp", generationConfig: { temperature }, systemInstruction: persona || undefined });
+                generativeModel = genAI.getGenerativeModel({ model: "gemini-2.0-flash", generationConfig: { temperature }, systemInstruction: persona || undefined });
                 const chat = generativeModel.startChat({ history: history });
                 const result = await chat.sendMessageStream(history.pop().parts);
                 for await (const chunk of result.stream) {
@@ -1489,8 +1140,6 @@
                 }
                 botMessageContainer.innerHTML = markdownConverter.makeHtml(fullResponse);
                 processCodeBlocks(botMessageContainer);
-                // Voice output for Pro users
-                speakText(fullResponse);
                 return fullResponse;
             } catch (error) {
                 console.error(error); removeTypingIndicator();
@@ -1598,211 +1247,6 @@
         function scrollToBottom() { dom.chatContainer.scrollTop = dom.chatContainer.scrollHeight; }
         function autoResizeTextarea() { dom.userQuestion.style.height = 'auto'; dom.userQuestion.style.height = `${dom.userQuestion.scrollHeight}px`; }
 
-        // --- Authentication Functions ---
-        function switchAuthTab(tab) {
-            if (tab === 'login') {
-                dom.loginForm.classList.remove('hidden');
-                dom.signupForm.classList.add('hidden');
-                dom.tabLogin.classList.add('bg-[var(--accent)]', 'text-white');
-                dom.tabLogin.classList.remove('bg-[var(--bg-tertiary)]', 'text-[var(--text-secondary)]');
-                dom.tabSignup.classList.remove('bg-[var(--accent)]', 'text-white');
-                dom.tabSignup.classList.add('bg-[var(--bg-tertiary)]', 'text-[var(--text-secondary)]');
-            } else {
-                dom.signupForm.classList.remove('hidden');
-                dom.loginForm.classList.add('hidden');
-                dom.tabSignup.classList.add('bg-[var(--accent)]', 'text-white');
-                dom.tabSignup.classList.remove('bg-[var(--bg-tertiary)]', 'text-[var(--text-secondary)]');
-                dom.tabLogin.classList.remove('bg-[var(--accent)]', 'text-white');
-                dom.tabLogin.classList.add('bg-[var(--bg-tertiary)]', 'text-[var(--text-secondary)]');
-            }
-        }
-
-        async function handleLogin() {
-            const email = dom.loginEmail.value.trim();
-            const password = dom.loginPassword.value;
-            if (!email || !password) { showCustomAlert('Error', 'Please fill in all fields'); return; }
-            if (!auth) { showCustomAlert('Error', 'Firebase not configured'); return; }
-            try {
-                await auth.signInWithEmailAndPassword(email, password);
-                toggleModal(dom.authModal, false);
-                dom.loginEmail.value = ''; dom.loginPassword.value = '';
-            } catch (error) {
-                showCustomAlert('Login Failed', error.message);
-            }
-        }
-
-        async function handleSignup() {
-            const name = dom.signupName.value.trim();
-            const email = dom.signupEmail.value.trim();
-            const password = dom.signupPassword.value;
-            if (!name || !email || !password) { showCustomAlert('Error', 'Please fill in all fields'); return; }
-            if (password.length < 6) { showCustomAlert('Error', 'Password must be at least 6 characters'); return; }
-            if (!auth) { showCustomAlert('Error', 'Firebase not configured'); return; }
-            try {
-                const result = await auth.createUserWithEmailAndPassword(email, password);
-                await result.user.updateProfile({ displayName: name });
-                await db.collection('users').doc(result.user.uid).set({
-                    name, email, tier: 'free', chatCount: 0, createdAt: new Date()
-                });
-                toggleModal(dom.authModal, false);
-                dom.signupName.value = ''; dom.signupEmail.value = ''; dom.signupPassword.value = '';
-            } catch (error) {
-                showCustomAlert('Signup Failed', error.message);
-            }
-        }
-
-        async function handleGoogleSignin() {
-            if (!auth) { showCustomAlert('Error', 'Firebase not configured'); return; }
-            try {
-                const provider = new firebase.auth.GoogleAuthProvider();
-                const result = await auth.signInWithPopup(provider);
-                const userDoc = await db.collection('users').doc(result.user.uid).get();
-                if (!userDoc.exists) {
-                    await db.collection('users').doc(result.user.uid).set({
-                        name: result.user.displayName, email: result.user.email, tier: 'free', chatCount: 0, createdAt: new Date()
-                    });
-                }
-                toggleModal(dom.authModal, false);
-            } catch (error) {
-                showCustomAlert('Sign In Failed', error.message);
-            }
-        }
-
-        async function handleLogout() {
-            if (!auth) return;
-            try {
-                await auth.signOut();
-                currentUser = null;
-                userTier = 'free';
-                chatCount = 0;
-                updateAuthUI();
-            } catch (error) {
-                showCustomAlert('Logout Failed', error.message);
-            }
-        }
-
-        function updateAuthUI() {
-            if (currentUser) {
-                dom.loginBtn.classList.add('hidden');
-                dom.userProfile.classList.remove('hidden');
-                const initial = currentUser.displayName ? currentUser.displayName[0].toUpperCase() : currentUser.email[0].toUpperCase();
-                dom.userAvatar.textContent = initial;
-                if (userTier === 'pro') {
-                    dom.userAvatar.innerHTML = initial + '<span class="pro-badge" style="position:absolute;top:-4px;right:-4px;font-size:8px;padding:1px 4px;">PRO</span>';
-                }
-                dom.accountSection.classList.remove('hidden');
-                dom.userEmailDisplay.textContent = currentUser.email;
-                dom.userPlanDisplay.innerHTML = userTier === 'pro' ? 'Pro <span class="pro-badge">PRO</span>' : 'Free';
-                if (userTier === 'free') {
-                    dom.freeUsageSection.classList.remove('hidden');
-                    updateUsageDisplay();
-                } else {
-                    dom.freeUsageSection.classList.add('hidden');
-                    dom.voiceOutputToggle.classList.remove('hidden');
-                }
-            } else {
-                dom.loginBtn.classList.remove('hidden');
-                dom.userProfile.classList.add('hidden');
-                dom.accountSection.classList.add('hidden');
-                dom.voiceOutputToggle.classList.add('hidden');
-            }
-        }
-
-        function updateUsageDisplay() {
-            dom.usageCountDisplay.textContent = `${chatCount}/3`;
-            const percentage = (chatCount / 3) * 100;
-            dom.usageProgressBar.style.width = `${percentage}%`;
-        }
-
-        function checkChatLimit() {
-            if (userTier === 'free' && chatCount >= 3) {
-                toggleModal(dom.upgradeModal, true);
-                return false;
-            }
-            return true;
-        }
-
-        function handleUpgrade() {
-            showCustomAlert('Upgrade', 'Payment integration coming soon! For now, you can simulate Pro by updating your user tier in Firebase.');
-            toggleModal(dom.upgradeModal, false);
-        }
-
-        // --- Voice Functions ---
-        function handleVoiceInput() {
-            if (userTier !== 'pro') {
-                toggleModal(dom.upgradeModal, true);
-                return;
-            }
-            if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
-                showCustomAlert('Not Supported', 'Voice input is not supported in your browser');
-                return;
-            }
-            if (isRecording) {
-                stopRecording();
-            } else {
-                startRecording();
-            }
-        }
-
-        function startRecording() {
-            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-            recognition = new SpeechRecognition();
-            recognition.continuous = false;
-            recognition.interimResults = false;
-            recognition.lang = 'en-US';
-
-            recognition.onstart = () => {
-                isRecording = true;
-                dom.voiceInputBtn.classList.add('voice-recording', 'text-[var(--accent)]');
-            };
-
-            recognition.onresult = (event) => {
-                const transcript = event.results[0][0].transcript;
-                dom.userQuestion.value = transcript;
-                autoResizeTextarea();
-            };
-
-            recognition.onerror = (event) => {
-                showCustomAlert('Voice Error', 'Could not recognize speech. Please try again.');
-                stopRecording();
-            };
-
-            recognition.onend = () => {
-                stopRecording();
-            };
-
-            recognition.start();
-        }
-
-        function stopRecording() {
-            if (recognition) {
-                recognition.stop();
-                recognition = null;
-            }
-            isRecording = false;
-            dom.voiceInputBtn.classList.remove('voice-recording', 'text-[var(--accent)]');
-        }
-
-        function toggleVoiceOutput() {
-            voiceOutputEnabled = !voiceOutputEnabled;
-            if (voiceOutputEnabled) {
-                dom.voiceOutputToggle.classList.add('text-[var(--accent)]');
-            } else {
-                dom.voiceOutputToggle.classList.remove('text-[var(--accent)]');
-                speechSynthesis.cancel();
-            }
-        }
-
-        function speakText(text) {
-            if (!voiceOutputEnabled || userTier !== 'pro') return;
-            speechSynthesis.cancel();
-            const utterance = new SpeechSynthesisUtterance(text);
-            utterance.rate = 1.0;
-            utterance.pitch = 1.0;
-            utterance.volume = 1.0;
-            speechSynthesis.speak(utterance);
-        }
-
         window.loadChat = window.loadChat; window.deleteChat = window.deleteChat; window.loadProject = window.loadProject;
 
         function init() {
@@ -1810,34 +1254,6 @@
             const savedTheme = localStorage.getItem('cobra-theme-v1') || 'dark';
             applyTheme(savedTheme); dom.themeToggle.checked = (savedTheme === 'light');
             renderProjects(); renderChatList(); autoResizeTextarea(); setChatMode('none');
-
-            // Firebase auth state listener
-            if (auth) {
-                auth.onAuthStateChanged(async (user) => {
-                    if (user) {
-                        currentUser = user;
-                        try {
-                            const userDoc = await db.collection('users').doc(user.uid).get();
-                            if (userDoc.exists) {
-                                const userData = userDoc.data();
-                                userTier = userData.tier || 'free';
-                                chatCount = userData.chatCount || 0;
-                            }
-                        } catch (e) {
-                            console.error('Error loading user data:', e);
-                        }
-                        updateAuthUI();
-                    } else {
-                        currentUser = null;
-                        userTier = 'free';
-                        chatCount = 0;
-                        updateAuthUI();
-                    }
-                });
-            } else {
-                updateAuthUI();
-            }
-
             setTimeout(() => { dom.splashScreen.classList.add('hidden'); }, 1500);
         }
 
