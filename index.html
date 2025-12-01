@@ -2,45 +2,36 @@
 <html lang="en">
 
 <head>
-    <meta name="description"
-        content="CobrΔ AI is a visual learning assistant created to explore AI-powered explanations with precision.">
-    <meta name="keywords" content="CobrΔ AI, Visual AI, Learning Assistant, AI Education">
-    <meta name="author" content="CobrΔ Tech">
-    <meta property="og:title" content="CobrΔ AI">
-    <meta property="og:description" content="AI-powered intelligence by CobrΔ.">
-    <meta property="og:url" content="https://cobra-ai.vercel.app">
-    <meta name="robots" content="index, follow">
+    <meta name="description" content="CobrΔ AI - Intelligent Assistant">
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CobrΔ AI</title>
+    <title>CobrΔ AI - Google Workspace</title>
+
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/2.1.0/showdown.min.js"></script>
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="icon" type="image/png" href="./fav.png">
+
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+
     <style>
-        /* THEME CONFIGURATION: Midnight Suit & Professional Emerald */
+        /* --- THEME SYSTEM --- */
         :root {
-            /* DARK MODE (Default) - "The Suit" */
             --bg-primary: #020617;
             --bg-secondary: #0f172a;
             --bg-tertiary: #1e293b;
             --bg-glass: rgba(2, 6, 23, 0.85);
             --bg-input: #0f172a;
-
             --text-primary: #f8fafc;
             --text-secondary: #94a3b8;
             --text-tertiary: #64748b;
-
             --border-primary: #1e293b;
             --border-secondary: #334155;
-
             --accent: #10b981;
             --accent-hover: #059669;
             --accent-subtle: rgba(16, 185, 129, 0.15);
-
             --text-inverse: #ffffff;
             --danger-hover: rgba(239, 68, 68, 0.15);
             --danger-text: #ef4444;
@@ -52,30 +43,24 @@
             --bg-tertiary: #e2e8f0;
             --bg-glass: rgba(255, 255, 255, 0.9);
             --bg-input: #ffffff;
-
             --text-primary: #0f172a;
             --text-secondary: #475569;
             --text-tertiary: #94a3b8;
-
             --border-primary: #e2e8f0;
             --border-secondary: #cbd5e1;
-
             --accent: #059669;
             --accent-hover: #047857;
             --accent-subtle: rgba(5, 150, 105, 0.1);
-
             --text-inverse: #ffffff;
             --danger-hover: rgba(220, 38, 38, 0.1);
             --danger-text: #dc2626;
         }
 
+        /* --- BASE STYLES --- */
         html,
         body {
             height: 100%;
             overflow: hidden;
-        }
-
-        body {
             font-family: 'Inter', sans-serif;
             background-color: var(--bg-primary);
             color: var(--text-primary);
@@ -95,13 +80,13 @@
             border-radius: 3px;
         }
 
-        /* Sidebar - Glassmorphism */
+        /* --- COMPONENTS --- */
         .sidebar {
             background-color: var(--bg-glass);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
             border-right: 1px solid var(--border-primary);
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.3s ease;
             position: fixed;
             top: 0;
             left: 0;
@@ -119,10 +104,6 @@
 
         .sidebar.sidebar-expanded {
             width: 18rem;
-        }
-
-        .sidebar-open {
-            transform: translateX(0);
         }
 
         .sidebar-closed {
@@ -155,12 +136,11 @@
             border-color: transparent;
         }
 
-        .nav-btn.active:hover {
-            box-shadow: 0 6px 16px var(--accent-subtle);
-        }
-
         @media (min-width: 768px) {
-            .sidebar:not(.sidebar-expanded) .nav-text {
+
+            .sidebar:not(.sidebar-expanded) .nav-text,
+            .sidebar:not(.sidebar-expanded) .chat-list-title,
+            .sidebar:not(.sidebar-expanded) .sidebar-collapsible {
                 display: none;
             }
 
@@ -171,14 +151,6 @@
             .sidebar:not(.sidebar-expanded) .nav-icon {
                 margin-right: 0;
             }
-
-            .sidebar:not(.sidebar-expanded) .chat-list-title {
-                display: none;
-            }
-
-            .sidebar:not(.sidebar-expanded) .sidebar-collapsible {
-                display: none;
-            }
         }
 
         .chat-input {
@@ -186,7 +158,7 @@
             border: 1px solid var(--border-primary);
             transition: all 0.2s ease;
             border-radius: 1rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
 
         .chat-input:focus-within {
@@ -194,7 +166,7 @@
             box-shadow: 0 0 0 2px var(--accent-subtle);
         }
 
-        /* Markdown Styles */
+        /* --- MARKDOWN --- */
         .markdown-content pre {
             background-color: var(--bg-secondary);
             border-radius: 0 0 0.5rem 0.5rem;
@@ -221,12 +193,6 @@
             border: 1px solid var(--border-secondary);
         }
 
-        .markdown-content th,
-        .markdown-content td {
-            border: 1px solid var(--border-primary);
-            padding: 8px;
-        }
-
         .markdown-content blockquote {
             border-left: 4px solid var(--accent);
             background-color: var(--bg-secondary);
@@ -240,7 +206,101 @@
             border-bottom: 1px solid var(--accent);
         }
 
-        /* Toggle Switch */
+        /* --- UI ELEMENTS --- */
+        .user-message-bubble {
+            background: linear-gradient(135deg, var(--accent), var(--accent-hover));
+            border: 1px solid var(--accent);
+            padding: 0.75rem 1rem;
+            border-radius: 1rem 1rem 0 1rem;
+            max-width: 90%;
+            color: var(--text-inverse);
+            box-shadow: 0 4px 12px var(--accent-subtle);
+        }
+
+        .message-appear {
+            animation: fade-in 0.3s ease-out;
+        }
+
+        @keyframes fade-in {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .text-gradient-suit {
+            background: linear-gradient(to right, var(--accent), #34d399);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Loading */
+        .dot-flashing {
+            position: relative;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: var(--text-secondary);
+            animation: dot-flashing 1s infinite linear alternate;
+            animation-delay: .5s;
+            margin-left: 4px;
+        }
+
+        .dot-flashing::before,
+        .dot-flashing::after {
+            content: '';
+            display: inline-block;
+            position: absolute;
+            top: 0;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: var(--text-secondary);
+        }
+
+        .dot-flashing::before {
+            left: -15px;
+            animation-delay: 0s;
+        }
+
+        .dot-flashing::after {
+            left: 15px;
+            animation-delay: 1s;
+        }
+
+        @keyframes dot-flashing {
+            0% {
+                background-color: var(--text-secondary);
+            }
+
+            50%,
+            100% {
+                background-color: rgba(139, 148, 158, 0.3);
+            }
+        }
+
+        /* Splash & Auth */
+        #splash-screen {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--bg-primary);
+            transition: opacity 0.5s ease-out;
+        }
+
+        #splash-screen.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
         .switch {
             position: relative;
             display: inline-block;
@@ -281,7 +341,6 @@
 
         input:checked+.slider {
             background-color: var(--accent);
-            border-color: var(--accent);
         }
 
         input:checked+.slider:before {
@@ -299,200 +358,98 @@
             color: var(--text-secondary);
             background-color: transparent;
             border: 1px solid var(--border-primary);
-            transition: all 0.2s;
             cursor: pointer;
-        }
-
-        .mode-toggle-btn:hover {
-            color: var(--text-primary);
-            background-color: var(--bg-tertiary);
-            border-color: var(--text-secondary);
         }
 
         .mode-toggle-btn.active {
             color: var(--text-inverse);
             background-color: var(--accent);
             border-color: var(--accent);
-            box-shadow: 0 2px 8px var(--accent-subtle);
-        }
-
-        .user-message-bubble {
-            background: linear-gradient(135deg, var(--accent), var(--accent-hover));
-            border: 1px solid var(--accent);
-            padding: 0.75rem 1rem;
-            border-radius: 1rem 1rem 0 1rem;
-            max-width: 90%;
-            color: var(--text-inverse);
-            word-wrap: break-word;
-            box-shadow: 0 4px 12px var(--accent-subtle);
-        }
-
-        .message-appear {
-            animation: fade-in 0.3s ease-out;
-        }
-
-        @keyframes fade-in {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Animations */
-        .dot-flashing {
-            position: relative;
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background-color: var(--text-secondary);
-            color: var(--text-secondary);
-            animation: dot-flashing 1s infinite linear alternate;
-            animation-delay: .5s;
-            margin-left: 4px;
-        }
-
-        .dot-flashing::before,
-        .dot-flashing::after {
-            content: '';
-            display: inline-block;
-            position: absolute;
-            top: 0;
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background-color: var(--text-secondary);
-            color: var(--text-secondary);
-        }
-
-        .dot-flashing::before {
-            left: -15px;
-            animation: dot-flashing 1s infinite alternate;
-            animation-delay: 0s;
-        }
-
-        .dot-flashing::after {
-            left: 15px;
-            animation: dot-flashing 1s infinite alternate;
-            animation-delay: 1s;
-        }
-
-        @keyframes dot-flashing {
-            0% {
-                background-color: var(--text-secondary);
-            }
-
-            50%,
-            100% {
-                background-color: rgba(139, 148, 158, 0.3);
-            }
-        }
-
-        .text-gradient-suit {
-            background: linear-gradient(to right, var(--accent), #34d399);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        /* Splash Screen */
-        #splash-screen {
-            position: fixed;
-            inset: 0;
-            z-index: 9999;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: var(--bg-primary);
-            transition: opacity 0.5s ease-out;
-        }
-
-        #splash-screen.hidden {
-            opacity: 0;
-            pointer-events: none;
         }
     </style>
 </head>
 
 <body class="w-full h-full overflow-hidden flex">
 
+    <div id="auth-screen"
+        class="fixed inset-0 z-[100] flex items-center justify-center bg-[var(--bg-primary)] transition-opacity duration-500">
+        <div
+            class="relative w-full max-w-sm p-8 m-4 overflow-hidden rounded-2xl bg-[var(--bg-glass)] backdrop-blur-xl border border-[var(--border-primary)] shadow-2xl">
+            <div
+                class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[var(--accent)] to-transparent">
+            </div>
+
+            <div class="text-center mb-8">
+                <h1 class="text-4xl font-extrabold text-gradient-suit mb-2">CobrΔ</h1>
+                <p class="text-[var(--text-secondary)] text-sm">Protected Workspace.</p>
+                <p id="auth-instruction" class="text-xs text-[var(--text-tertiary)] mt-1">Please sign in with Google.
+                </p>
+            </div>
+
+            <div class="flex justify-center w-full min-h-[50px]">
+                <div id="g_id_onload" data-callback="handleCredentialResponse" data-auto_prompt="false"
+                    data-theme="filled_black">
+                </div>
+                <div class="g_id_signin" data-type="standard" data-size="large" data-theme="outline"
+                    data-text="sign_in_with" data-shape="rectangular" data-logo_alignment="left">
+                </div>
+            </div>
+
+            <p id="config-error" class="text-xs text-[var(--danger-text)] text-center mt-4 hidden">
+                Configuration Missing! Open code and set CLIENT_ID.
+            </p>
+        </div>
+    </div>
+
     <input type="file" id="imageUploadInput" accept="image/*" class="hidden">
     <input type="file" id="fileUploadInput" accept=".txt,.js,.py,.html,.css,.md,.json" class="hidden">
 
-    <div id="splash-screen">
+    <div id="splash-screen" class="hidden">
         <h2 class="text-6xl font-extrabold text-gradient-suit">CobrΔ</h2>
     </div>
 
     <aside id="sidebar"
         class="sidebar sidebar-closed w-72 md:w-20 flex-shrink-0 flex flex-col transition-all duration-300 ease-in-out overflow-hidden">
-
         <div class="p-2 flex-shrink-0 hidden md:flex md:justify-center">
-            <button id="desktop-sidebar-toggle" class="nav-btn p-3 rounded-lg">
-                <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
-                    stroke="currentColor">
+            <button id="desktop-sidebar-toggle" class="nav-btn p-3 rounded-lg"><svg class="w-5 h-5" fill="none"
+                    viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round"
                         d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-                </svg>
-            </button>
+                </svg></button>
         </div>
-
         <div class="p-2 space-y-2 border-y border-[var(--border-primary)] flex-shrink-0">
             <button id="newChatBtn" class="nav-btn w-full text-left relative flex items-center p-3 rounded-lg">
-                <svg class="w-5 h-5 flex-shrink-0 nav-icon mr-3" xmlns="http://www.w3.org/2000/svg" fill="none"
-                    viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <svg class="w-5 h-5 flex-shrink-0 nav-icon mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                    stroke-width="2">
                     <path d="M12 4v16m8-8H4" />
                 </svg>
                 <span class="nav-text whitespace-nowrap font-bold">New Chat</span>
             </button>
         </div>
-
         <div class="p-2 sidebar-collapsible flex-shrink-0">
             <div class="flex items-center justify-between px-2 mb-1">
                 <h3 class="text-xs font-semibold text-[var(--text-tertiary)] uppercase tracking-wider">Projects</h3>
-                <button id="addProjectBtn" class="text-[var(--accent)] hover:text-[var(--accent-hover)]"
-                    title="Add Project">
-                    <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor" stroke-width="2">
+                <button id="addProjectBtn" class="text-[var(--accent)] hover:text-[var(--accent-hover)]"><svg
+                        class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path d="M12 4v16m8-8H4" />
-                    </svg>
-                </button>
+                    </svg></button>
             </div>
-            <div id="projectsListContainer" class="space-y-1 overflow-y-auto max-h-32">
-            </div>
+            <div id="projectsListContainer" class="space-y-1 overflow-y-auto max-h-32"></div>
         </div>
-
-        <div class="p-2 sidebar-collapsible flex-shrink-0">
-            <div class="relative">
-                <input type="text" id="chatSearchInput" placeholder="Search chats..."
-                    class="w-full p-2 pl-8 text-sm rounded-lg bg-[var(--bg-input)] border border-[var(--border-primary)] focus:outline-none focus:border-[var(--accent)] transition-colors"
-                    style="color: var(--text-primary);">
-                <svg class="w-4 h-4 absolute left-2.5 top-1/2 -translate-y-1/2 text-[var(--text-secondary)]"
-                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                    stroke-width="2">
-                    <circle cx="11" cy="11" r="8"></circle>
-                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                </svg>
-            </div>
-        </div>
-
         <div class="flex-1 p-2 space-y-1 overflow-y-auto">
             <h3
                 class="px-4 py-2 text-xs font-semibold text-[var(--text-tertiary)] uppercase tracking-wider chat-list-title sidebar-collapsible">
                 Recent</h3>
             <div id="chatListContainer"></div>
         </div>
-
         <div class="p-2 border-t border-[var(--border-primary)] text-xs text-[var(--text-secondary)] flex-shrink-0">
             <button id="settingsBtn" class="nav-btn w-full text-left relative flex items-center p-3 rounded-lg">
-                <svg class="w-5 h-5 flex-shrink-0 nav-icon mr-3" xmlns="http://www.w3.org/2000/svg" fill="none"
-                    viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path
-                        d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 0 2l-.15.08a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.38a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1 0-2l.15-.08a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z">
-                    </path>
+                <svg class="w-5 h-5 flex-shrink-0 nav-icon mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                    stroke-width="2">
                     <circle cx="12" cy="12" r="3"></circle>
+                    <path
+                        d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z">
+                    </path>
                 </svg>
                 <span class="nav-text whitespace-nowrap">Settings</span>
             </button>
@@ -503,19 +460,18 @@
         <header
             class="flex items-center justify-between p-2 bg-[var(--bg-glass)] backdrop-blur-md border-b border-[var(--border-primary)] flex-shrink-0 sticky top-0 z-20">
             <button id="menu-toggle"
-                class="md:hidden text-[var(--text-secondary)] p-2 rounded-lg hover:bg-[var(--bg-tertiary)] transition-colors">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                class="md:hidden text-[var(--text-secondary)] p-2 rounded-lg hover:bg-[var(--bg-tertiary)] transition-colors"><svg
+                    class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7">
                     </path>
-                </svg>
-            </button>
+                </svg></button>
             <div class="flex-1"></div>
             <div class="flex items-center p-3 h-16 flex-shrink-0">
                 <span class="text-xl font-bold mr-2 whitespace-nowrap hidden md:inline text-gradient-suit">CobrΔ</span>
                 <div
                     class="w-9 h-9 rounded-full flex-shrink-0 flex items-center justify-center bg-gradient-to-br from-emerald-500 to-emerald-700 shadow-lg shadow-emerald-900/50">
-                    <svg class="w-5 h-5 text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <svg class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M20 9V7a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v2" />
                         <path d="M12 11v10" />
                         <path d="M4.1 11H20" />
@@ -527,15 +483,13 @@
                 </div>
             </div>
             <button id="export-chat-btn"
-                class="text-[var(--text-secondary)] p-2 rounded-lg hover:bg-[var(--bg-tertiary)] transition-colors"
-                title="Export Chat">
-                <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                class="text-[var(--text-secondary)] p-2 rounded-lg hover:bg-[var(--bg-tertiary)] transition-colors"><svg
+                    class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                     <polyline points="7 10 12 15 17 10"></polyline>
                     <line x1="12" y1="15" x2="12" y2="3"></line>
-                </svg>
-            </button>
+                </svg></button>
         </header>
 
         <main class="flex-1 flex flex-col overflow-hidden">
@@ -549,89 +503,64 @@
             <div class="p-4 chat-input-wrapper flex-shrink-0 bg-[var(--bg-primary)]">
                 <div class="max-w-3xl mx-auto">
                     <div class="flex flex-wrap items-center justify-start gap-2 px-3 mb-2">
-                        <button id="mode-toggle-none" class="mode-toggle-btn active" title="Standard Mode (Temp 0.8)">
-                            <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <button id="mode-toggle-none" class="mode-toggle-btn active" title="Standard"><svg
+                                class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2">
                                 <circle cx="12" cy="12" r="1.1"></circle>
                                 <path
                                     d="M12 2a10 10 0 0 1 10 10 10 10 0 0 1-10 10 10 10 0 0 1-10-10 10 10 0 0 1 10-10z">
                                 </path>
-                            </svg>
-                            <span class="ml-1.5">Standard</span>
-                        </button>
-                        <button id="mode-toggle-web" class="mode-toggle-btn" title="Factual Mode (Temp 0.3)">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            </svg><span class="ml-1.5">Standard</span></button>
+                        <button id="mode-toggle-web" class="mode-toggle-btn" title="Factual"><svg class="w-4 h-4"
+                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <circle cx="12" cy="12" r="10"></circle>
                                 <line x1="2" y1="12" x2="22" y2="12"></line>
                                 <path
                                     d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z">
                                 </path>
-                            </svg>
-                            <span class="ml-1.5">Factual</span>
-                        </button>
-                        <button id="mode-toggle-creative" class="mode-toggle-btn" title="Creative Mode (Temp 1.0)">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            </svg><span class="ml-1.5">Factual</span></button>
+                        <button id="mode-toggle-creative" class="mode-toggle-btn" title="Creative"><svg class="w-4 h-4"
+                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <path d="M12 3L9.5 8.5 4 10l5.5 5.5L8 21l4-3 4 3-1.5-5.5L20 10l-5.5-1.5z" />
-                            </svg>
-                            <span class="ml-1.5">Creative</span>
-                        </button>
-                        <div class="relative">
-                            <select id="persona-select" class="mode-toggle-btn appearance-none"
+                            </svg><span class="ml-1.5">Creative</span></button>
+                        <div class="relative"><select id="persona-select" class="mode-toggle-btn appearance-none"
                                 style="padding-right: 2rem;">
                                 <option value="">Default Persona</option>
-                                <option
-                                    value="You are a master Python programmer. You only provide code and explanations for Python.">
-                                    Python Expert</option>
-                                <option
-                                    value="You are a sarcastic and witty assistant. You answer questions reluctantly.">
-                                    Sarcastic Friend</option>
-                                <option
-                                    value="You are a helpful assistant for writing SQL queries. You provide optimized SQL code.">
-                                    SQL Helper</option>
-                                <option
-                                    value="You are a creative writer. You answer in the form of a short poem or story.">
-                                    Creative Writer</option>
-                            </select>
-                            <svg class="w-4 h-4 absolute right-2 top-1/2 -translate-y-1/2 text-[var(--text-secondary)] pointer-events-none"
+                                <option value="You are a master Python programmer.">Python Expert</option>
+                                <option value="You are a creative writer.">Creative Writer</option>
+                                <option value="You are a strict code reviewer.">Code Reviewer</option>
+                            </select><svg
+                                class="w-4 h-4 absolute right-2 top-1/2 -translate-y-1/2 text-[var(--text-secondary)] pointer-events-none"
                                 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                                 <path fill-rule="evenodd"
                                     d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
                                     clip-rule="evenodd" />
-                            </svg>
-                        </div>
+                            </svg></div>
                     </div>
 
                     <div id="attachment-preview"
                         class="hidden p-2 mb-2 border border-[var(--border-secondary)] rounded-lg relative bg-[var(--bg-input)]">
                         <button id="remove-attachment-btn"
-                            class="absolute -top-2 -right-2 p-1 bg-[var(--bg-tertiary)] rounded-full text-[var(--text-primary)] hover:bg-[var(--danger-hover)] hover:text-[var(--danger-text)] transition-colors">
-                            <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                                fill="currentColor">
+                            class="absolute -top-2 -right-2 p-1 bg-[var(--bg-tertiary)] rounded-full text-[var(--text-primary)] hover:bg-[var(--danger-hover)] hover:text-[var(--danger-text)]"><svg
+                                class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
                                 <path fill-rule="evenodd"
                                     d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
                                     clip-rule="evenodd" />
-                            </svg>
-                        </button>
+                            </svg></button>
                         <div id="attachment-preview-content" class="flex items-center gap-2"></div>
                     </div>
 
                     <div class="flex items-end chat-input rounded-xl p-2">
                         <button id="attach-file-btn"
-                            class="p-2 rounded-lg text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-tertiary)] transition-colors self-end"
-                            title="Attach file"><svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                stroke-linecap="round" stroke-linejoin="round">
+                            class="p-2 rounded-lg text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-tertiary)]"><svg
+                                class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <path
                                     d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48">
                                 </path>
                             </svg></button>
                         <button id="upload-image-btn"
-                            class="p-2 rounded-lg text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-tertiary)] transition-colors self-end"
-                            title="Upload image"><svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                stroke-linecap="round" stroke-linejoin="round">
+                            class="p-2 rounded-lg text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-tertiary)]"><svg
+                                class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
                                 <circle cx="8.5" cy="8.5" r="1.5"></circle>
                                 <polyline points="21 15 16 10 5 21"></polyline>
@@ -640,8 +569,7 @@
                             class="flex-1 bg-transparent text-[var(--text-primary)] focus:outline-none resize-none px-2 max-h-48 self-center"></textarea>
                         <button id="askBtn"
                             class="bg-[var(--accent)] hover:bg-[var(--accent-hover)] text-white p-2 rounded-lg ml-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed self-end"><svg
-                                xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <line x1="22" y1="2" x2="11" y2="13"></line>
                                 <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
                             </svg></button>
@@ -651,64 +579,50 @@
         </main>
     </div>
 
-    <div id="overlay" class="md:hidden hidden fixed inset-0 bg-black bg-opacity-50 z-30"></div>
     <div id="settings-modal-overlay" class="hidden fixed inset-0 bg-black bg-opacity-60 z-40"></div>
-
     <div id="settings-modal"
         class="hidden fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-md z-50">
         <div
             class="m-4 bg-[var(--bg-glass)] backdrop-blur-xl border border-[var(--border-primary)] rounded-lg shadow-2xl text-[var(--text-primary)]">
             <div class="flex items-center justify-between p-4 border-b border-[var(--border-primary)]">
-                <h2 class="text-lg font-semibold">Settings</h2>
-                <button id="close-settings-btn" class="p-2 rounded-full hover:bg-[var(--bg-tertiary)]"><svg
-                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <h2 class="text-lg font-semibold">Settings</h2><button id="close-settings-btn"
+                    class="p-2 rounded-full hover:bg-[var(--bg-tertiary)]"><svg width="24" height="24"
+                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <line x1="18" y1="6" x2="6" y2="18"></line>
                         <line x1="6" y1="6" x2="18" y2="18"></line>
                     </svg></button>
             </div>
             <div class="p-6 space-y-6">
-                <div class="flex items-center justify-between">
-                    <label for="theme-toggle" class="font-medium">Light Mode</label>
-                    <label class="switch"><input type="checkbox" id="theme-toggle"><span class="slider"></span></label>
-                </div>
+                <div class="flex items-center justify-between"><label for="theme-toggle" class="font-medium">Light
+                        Mode</label><label class="switch"><input type="checkbox" id="theme-toggle"><span
+                            class="slider"></span></label></div>
 
                 <button id="open-archives-btn"
-                    class="w-full flex items-center justify-between p-3 rounded-lg border border-[var(--border-primary)] hover:bg-[var(--bg-tertiary)] transition-colors">
-                    <div class="flex items-center gap-3">
-                        <svg class="w-5 h-5 text-[var(--accent)]" xmlns="http://www.w3.org/2000/svg" fill="none"
-                            viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    class="w-full flex items-center justify-between p-3 rounded-lg border border-[var(--border-primary)] hover:bg-[var(--bg-tertiary)]">
+                    <div class="flex items-center gap-3"><svg class="w-5 h-5 text-[var(--accent)]"
+                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                            stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round"
                                 d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
-                        </svg>
-                        <span>Archived Chats</span>
-                    </div>
-                    <svg class="w-4 h-4 text-[var(--text-tertiary)]" xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polyline points="9 18 15 12 9 6"></polyline>
-                    </svg>
+                        </svg><span>Archived Chats</span></div>
                 </button>
 
-                <button id="manage-subscription-btn"
-                    class="w-full flex items-center justify-between p-3 rounded-lg border border-[var(--border-primary)] hover:bg-[var(--bg-tertiary)] transition-colors">
-                    <div class="flex items-center gap-3">
-                        <svg class="w-5 h-5 text-[var(--accent)]" xmlns="http://www.w3.org/2000/svg" fill="none"
-                            viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
-                        </svg>
-                        <span>Manage Subscription</span>
+                <div class="border-t border-[var(--border-primary)] pt-4 mt-4">
+                    <button id="logout-btn"
+                        class="w-full flex items-center justify-center gap-2 p-2 mb-4 text-xs font-bold text-[var(--danger-text)] border border-[var(--danger-text)] rounded-lg hover:bg-[var(--danger-hover)] transition-colors">Sign
+                        Out</button>
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <h3 class="font-semibold">CobrΔ AI</h3>
+                            <p class="text-xs text-[var(--text-secondary)]">v2.5 Google</p>
+                        </div>
+                        <div class="text-right flex items-center gap-2">
+                            <p id="user-display-name" class="text-xs font-mono text-[var(--accent)]">Unknown</p>
+                            <img id="user-avatar"
+                                class="w-8 h-8 rounded-full hidden border border-[var(--border-secondary)]" src=""
+                                alt="User">
+                        </div>
                     </div>
-                    <svg class="w-4 h-4 text-[var(--text-tertiary)]" xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polyline points="9 18 15 12 9 6"></polyline>
-                    </svg>
-                </button>
-
-                <div class="border-t border-[var(--border-primary)] pt-6">
-                    <h3 class="font-semibold mb-2">About</h3>
-                    <p class="text-sm text-[var(--text-secondary)]">CobrΔ AI v2.1. Visual and intelligent learning
-                        assistant.</p>
                 </div>
             </div>
         </div>
@@ -719,10 +633,9 @@
         <div
             class="m-4 bg-[var(--bg-glass)] backdrop-blur-xl border border-[var(--border-primary)] rounded-lg shadow-2xl text-[var(--text-primary)] h-[80vh] flex flex-col">
             <div class="flex items-center justify-between p-4 border-b border-[var(--border-primary)]">
-                <h2 class="text-lg font-semibold">Archived Chats</h2>
-                <button id="close-archive-btn" class="p-2 rounded-full hover:bg-[var(--bg-tertiary)]"><svg
-                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <h2 class="text-lg font-semibold">Archived Chats</h2><button id="close-archive-btn"
+                    class="p-2 rounded-full hover:bg-[var(--bg-tertiary)]"><svg width="24" height="24"
+                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <line x1="18" y1="6" x2="6" y2="18"></line>
                         <line x1="6" y1="6" x2="18" y2="18"></line>
                     </svg></button>
@@ -730,32 +643,6 @@
             <div id="archiveListContainer" class="flex-1 p-4 overflow-y-auto space-y-2"></div>
         </div>
     </div>
-
-    <div id="subscription-modal"
-        class="hidden fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-sm z-50">
-        <div
-            class="m-4 bg-[var(--bg-glass)] backdrop-blur-xl border border-[var(--border-primary)] rounded-lg shadow-2xl text-[var(--text-primary)]">
-            <div class="p-6 text-center">
-                <div
-                    class="mx-auto w-12 h-12 bg-[var(--accent-subtle)] rounded-full flex items-center justify-center mb-4">
-                    <svg class="w-6 h-6 text-[var(--accent)]" xmlns="http://www.w3.org/2000/svg" fill="none"
-                        viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                </div>
-                <h3 class="text-lg font-semibold mb-2">Current Plan: Free</h3>
-                <p class="text-sm text-[var(--text-secondary)] mb-6">You are currently on the free tier. Upgrade to
-                    unlock premium features.</p>
-                <div class="flex justify-center gap-3">
-                    <button id="close-subscription-btn" class="nav-btn px-4 py-2 rounded-lg">Close</button>
-                    <button
-                        class="bg-[var(--accent)] text-white px-4 py-2 rounded-lg hover:bg-[var(--accent-hover)]">Upgrade</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <div id="project-modal"
         class="hidden fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-sm z-50">
         <div
@@ -763,33 +650,28 @@
             <div class="p-6">
                 <h3 class="text-lg font-semibold mb-4">Create New Project</h3>
                 <div class="space-y-4">
-                    <div>
-                        <label class="block text-xs font-medium text-[var(--text-secondary)] mb-1">Project Name</label>
-                        <input type="text" id="projectNameInput"
+                    <div><label class="block text-xs font-medium text-[var(--text-secondary)] mb-1">Project
+                            Name</label><input type="text" id="projectNameInput"
                             class="w-full p-2 rounded-lg bg-[var(--bg-input)] border border-[var(--border-primary)] focus:border-[var(--accent)] outline-none"
-                            placeholder="My Awesome Project">
-                    </div>
+                            placeholder="My Awesome Project"></div>
                 </div>
-                <div class="flex justify-end gap-3 mt-6">
-                    <button id="cancel-project-btn" class="nav-btn px-4 py-2 rounded-lg">Cancel</button>
-                    <button id="save-project-btn"
+                <div class="flex justify-end gap-3 mt-6"><button id="cancel-project-btn"
+                        class="nav-btn px-4 py-2 rounded-lg">Cancel</button><button id="save-project-btn"
                         class="bg-[var(--accent)] text-white px-4 py-2 rounded-lg hover:bg-[var(--accent-hover)]">Create</button>
                 </div>
             </div>
         </div>
     </div>
-
     <div id="custom-modal-overlay" class="hidden fixed inset-0 bg-black bg-opacity-60 z-50"></div>
     <div id="custom-modal"
         class="hidden fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-sm z-50 message-appear">
         <div
             class="m-4 bg-[var(--bg-glass)] backdrop-blur-xl border border-[var(--border-primary)] rounded-lg shadow-2xl text-[var(--text-primary)]">
             <div class="p-6">
-                <h3 id="custom-modal-title" class="text-lg font-semibold mb-2">Modal Title</h3>
-                <p id="custom-modal-message" class="text-sm text-[var(--text-secondary)] mb-6">Message</p>
-                <div id="custom-modal-buttons" class="flex justify-end gap-3">
-                    <button id="custom-modal-btn-cancel" class="nav-btn px-4 py-2 rounded-lg">Cancel</button>
-                    <button id="custom-modal-btn-confirm"
+                <h3 id="custom-modal-title" class="text-lg font-semibold mb-2"></h3>
+                <p id="custom-modal-message" class="text-sm text-[var(--text-secondary)] mb-6"></p>
+                <div id="custom-modal-buttons" class="flex justify-end gap-3"><button id="custom-modal-btn-cancel"
+                        class="nav-btn px-4 py-2 rounded-lg">Cancel</button><button id="custom-modal-btn-confirm"
                         class="bg-[var(--danger-text)] text-white px-4 py-2 rounded-lg hover:bg-opacity-80 transition-colors">Confirm</button>
                 </div>
             </div>
@@ -797,22 +679,37 @@
     </div>
 
     <script type="module">
-        import { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold } from "https://cdn.jsdelivr.net/npm/@google/generative-ai/+esm";
+        import { GoogleGenerativeAI } from "https://cdn.jsdelivr.net/npm/@google/generative-ai/+esm";
 
-        const API_KEY = "AIzaSyAg7F8FCeoquqdCsGobVnA371XMGgnLCFE";
+        // =========================================================
+        //  ⚠️ CONFIGURATION - REQUIRED (EDIT THIS)
+        // =========================================================
 
-        // --- Global State ---
+        const GEMINI_API_KEY = "AIzaSyCVvLGL8sWqk78uS3oa1u0wx2WcJUgZ1oA";
+
+        // PASTE YOUR CLIENT ID HERE (From Google Cloud Console)
+        // Example: "123456789-abcdefg.apps.googleusercontent.com"
+        const GOOGLE_CLIENT_ID = "837555779713-i0ss5lf307gsnk3br5voj1tvf8es0r2o.apps.googleusercontent.com";
+
+        // =========================================================
+
         let currentChatId = null;
         let currentProjectId = 'default';
         let currentChatMode = 'none';
-        let confirmCallback = null;
         let genAI;
         let generativeModel;
         let attachedFileData = null;
-
+        let confirmCallback = null;
         const markdownConverter = new showdown.Converter({ tables: true, strikethrough: true, simplifiedAutoLink: true });
 
         const dom = {
+            authScreen: document.getElementById('auth-screen'),
+            googleBtnContainer: document.getElementById('g_id_onload'),
+            configError: document.getElementById('config-error'),
+            userDisplayName: document.getElementById('user-display-name'),
+            userAvatar: document.getElementById('user-avatar'),
+            logoutBtn: document.getElementById('logout-btn'),
+            splashScreen: document.getElementById('splash-screen'),
             askBtn: document.getElementById("askBtn"),
             userQuestion: document.getElementById("userQuestion"),
             chatContainer: document.getElementById("chatContainer"),
@@ -821,7 +718,6 @@
             sidebar: document.getElementById('sidebar'),
             menuToggle: document.getElementById('menu-toggle'),
             desktopSidebarToggle: document.getElementById('desktop-sidebar-toggle'),
-            overlay: document.getElementById('overlay'),
             chatListContainer: document.getElementById('chatListContainer'),
             settingsBtn: document.getElementById('settingsBtn'),
             settingsModal: document.getElementById('settings-modal'),
@@ -832,15 +728,6 @@
             modeToggleNone: document.getElementById('mode-toggle-none'),
             modeToggleWeb: document.getElementById('mode-toggle-web'),
             modeToggleCreative: document.getElementById('mode-toggle-creative'),
-            splashScreen: document.getElementById('splash-screen'),
-            exportChatBtn: document.getElementById('export-chat-btn'),
-            chatSearchInput: document.getElementById('chatSearchInput'),
-            customModal: document.getElementById('custom-modal'),
-            customModalOverlay: document.getElementById('custom-modal-overlay'),
-            customModalTitle: document.getElementById('custom-modal-title'),
-            customModalMessage: document.getElementById('custom-modal-message'),
-            customModalBtnConfirm: document.getElementById('custom-modal-btn-confirm'),
-            customModalBtnCancel: document.getElementById('custom-modal-btn-cancel'),
             imageUploadInput: document.getElementById('imageUploadInput'),
             fileUploadInput: document.getElementById('fileUploadInput'),
             attachFileBtn: document.getElementById('attach-file-btn'),
@@ -848,8 +735,6 @@
             attachmentPreview: document.getElementById('attachment-preview'),
             attachmentPreviewContent: document.getElementById('attachment-preview-content'),
             removeAttachmentBtn: document.getElementById('remove-attachment-btn'),
-
-            // Projects & Archives & Subscription
             projectsListContainer: document.getElementById('projectsListContainer'),
             addProjectBtn: document.getElementById('addProjectBtn'),
             projectModal: document.getElementById('project-modal'),
@@ -860,406 +745,255 @@
             archiveModal: document.getElementById('archive-modal'),
             closeArchiveBtn: document.getElementById('close-archive-btn'),
             archiveListContainer: document.getElementById('archiveListContainer'),
-            manageSubscriptionBtn: document.getElementById('manage-subscription-btn'),
-            subscriptionModal: document.getElementById('subscription-modal'),
-            closeSubscriptionBtn: document.getElementById('close-subscription-btn'),
+            customModal: document.getElementById('custom-modal'),
+            customModalOverlay: document.getElementById('custom-modal-overlay'),
+            customModalTitle: document.getElementById('custom-modal-title'),
+            customModalMessage: document.getElementById('custom-modal-message'),
+            customModalBtnConfirm: document.getElementById('custom-modal-btn-confirm'),
+            customModalBtnCancel: document.getElementById('custom-modal-btn-cancel')
         };
 
-        // --- Event Listeners ---
+        // --- AUTH LOGIC (Google) ---
+
+        window.handleCredentialResponse = function (response) {
+            const responsePayload = decodeJwtResponse(response.credential);
+            localStorage.setItem('cobra_google_token', response.credential);
+            localStorage.setItem('cobra_user_name', responsePayload.name);
+            localStorage.setItem('cobra_user_pic', responsePayload.picture);
+            completeLogin(responsePayload.name, responsePayload.picture);
+        }
+
+        function decodeJwtResponse(token) {
+            var base64Url = token.split('.')[1];
+            var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+            var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function (c) {
+                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+            }).join(''));
+            return JSON.parse(jsonPayload);
+        }
+
+        function checkAuth() {
+            // Config Check
+            if (!GOOGLE_CLIENT_ID || GOOGLE_CLIENT_ID.includes("PASTE")) {
+                dom.configError.classList.remove('hidden');
+                if (dom.googleBtnContainer) dom.googleBtnContainer.style.display = 'none';
+                return;
+            } else {
+                if (dom.googleBtnContainer) dom.googleBtnContainer.setAttribute('data-client_id', GOOGLE_CLIENT_ID);
+            }
+
+            const token = localStorage.getItem('cobra_google_token');
+            const name = localStorage.getItem('cobra_user_name');
+            const pic = localStorage.getItem('cobra_user_pic');
+
+            if (token && name) {
+                completeLogin(name, pic);
+            } else {
+                dom.authScreen.classList.remove('hidden');
+                dom.splashScreen.classList.add('hidden');
+            }
+        }
+
+        function completeLogin(name, pic) {
+            dom.authScreen.classList.add('hidden');
+            dom.splashScreen.classList.remove('hidden');
+
+            dom.userDisplayName.textContent = name;
+            if (pic) {
+                dom.userAvatar.src = pic;
+                dom.userAvatar.classList.remove('hidden');
+            }
+
+            initializeAI();
+        }
+
+        function handleLogout() {
+            localStorage.removeItem('cobra_google_token');
+            localStorage.removeItem('cobra_user_name');
+            localStorage.removeItem('cobra_user_pic');
+            if (typeof google !== 'undefined') google.accounts.id.disableAutoSelect();
+            window.location.reload();
+        }
+
+        dom.logoutBtn.addEventListener('click', handleLogout);
+
+        // --- CORE UI LOGIC ---
+
+        function initializeAI() {
+            try {
+                if (!GEMINI_API_KEY || GEMINI_API_KEY.includes("PASTE")) {
+                    alert("Gemini API Key missing. Please edit the code.");
+                    return;
+                }
+                genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
+                const savedTheme = localStorage.getItem('cobra-theme-v1') || 'dark';
+                applyTheme(savedTheme);
+                dom.themeToggle.checked = (savedTheme === 'light');
+                renderProjects();
+                renderChatList();
+                autoResizeTextarea();
+
+                setTimeout(() => { dom.splashScreen.classList.add('hidden'); }, 1500);
+            } catch (e) { console.error(e); }
+        }
+
+        // Listeners
         dom.askBtn.addEventListener("click", handleAsk);
-        dom.newChatBtn.addEventListener('click', () => startNewChat(true));
         dom.userQuestion.addEventListener("keydown", e => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); handleAsk(); } });
         dom.userQuestion.addEventListener('input', autoResizeTextarea);
-        dom.menuToggle.addEventListener('click', toggleMobileSidebar);
-        dom.desktopSidebarToggle.addEventListener('click', toggleDesktopSidebar);
-        dom.overlay.addEventListener('click', toggleMobileSidebar);
+        dom.newChatBtn.addEventListener('click', () => startNewChat(true));
 
-        // Settings & Modals
-        dom.settingsBtn.addEventListener('click', () => toggleModal(dom.settingsModal, true));
-        dom.closeSettingsBtn.addEventListener('click', () => toggleModal(dom.settingsModal, false));
-        dom.settingsModalOverlay.addEventListener('click', () => {
-            toggleModal(dom.settingsModal, false);
-            toggleModal(dom.projectModal, false);
-            toggleModal(dom.subscriptionModal, false);
-        });
+        // Sidebar
+        dom.menuToggle.addEventListener('click', () => dom.sidebar.classList.toggle('sidebar-closed'));
+        dom.desktopSidebarToggle.addEventListener('click', () => dom.sidebar.classList.toggle('sidebar-expanded'));
 
-        dom.addProjectBtn.addEventListener('click', () => toggleModal(dom.projectModal, true));
-        dom.cancelProjectBtn.addEventListener('click', () => toggleModal(dom.projectModal, false));
+        // Modals
+        const toggleModal = (modal, overlay, show) => { if (show) { modal.classList.remove('hidden'); overlay.classList.remove('hidden'); } else { modal.classList.add('hidden'); overlay.classList.add('hidden'); } };
+        dom.settingsBtn.addEventListener('click', () => toggleModal(dom.settingsModal, dom.settingsModalOverlay, true));
+        dom.closeSettingsBtn.addEventListener('click', () => toggleModal(dom.settingsModal, dom.settingsModalOverlay, false));
+        dom.settingsModalOverlay.addEventListener('click', () => toggleModal(dom.settingsModal, dom.settingsModalOverlay, false));
+        dom.openArchivesBtn.addEventListener('click', () => { toggleModal(dom.settingsModal, dom.settingsModalOverlay, false); openArchiveModal(); });
+        dom.closeArchiveBtn.addEventListener('click', () => toggleModal(dom.archiveModal, dom.settingsModalOverlay, false));
+
+        // Projects
+        dom.addProjectBtn.addEventListener('click', () => toggleModal(dom.projectModal, dom.settingsModalOverlay, true));
+        dom.cancelProjectBtn.addEventListener('click', () => toggleModal(dom.projectModal, dom.settingsModalOverlay, false));
         dom.saveProjectBtn.addEventListener('click', saveNewProject);
 
-        dom.openArchivesBtn.addEventListener('click', openArchiveModal);
-        dom.closeArchiveBtn.addEventListener('click', () => toggleModal(dom.archiveModal, false));
-
-        dom.manageSubscriptionBtn.addEventListener('click', () => {
-            toggleModal(dom.settingsModal, false);
-            toggleModal(dom.subscriptionModal, true);
-        });
-        dom.closeSubscriptionBtn.addEventListener('click', () => toggleModal(dom.subscriptionModal, false));
-
-        dom.themeToggle.addEventListener('change', handleThemeChange);
-        dom.modeToggleNone.addEventListener('click', () => setChatMode('none'));
-        dom.modeToggleWeb.addEventListener('click', () => setChatMode('web'));
-        dom.modeToggleCreative.addEventListener('click', () => setChatMode('creative'));
-        dom.exportChatBtn.addEventListener('click', exportChat);
-        dom.chatSearchInput.addEventListener('input', handleChatSearch);
-
-        dom.customModalBtnConfirm.addEventListener('click', () => { if (confirmCallback) confirmCallback(); hideCustomModal(); });
-        dom.customModalBtnCancel.addEventListener('click', hideCustomModal);
-        dom.customModalOverlay.addEventListener('click', hideCustomModal);
-
+        // Files
         dom.uploadImageBtn.addEventListener('click', () => dom.imageUploadInput.click());
         dom.attachFileBtn.addEventListener('click', () => dom.fileUploadInput.click());
         dom.imageUploadInput.addEventListener('change', handleFileSelect);
         dom.fileUploadInput.addEventListener('change', handleFileSelect);
         dom.removeAttachmentBtn.addEventListener('click', removeAttachment);
 
-        // --- Helpers ---
-        function toggleModal(modal, show) {
-            if (show) {
-                modal.classList.remove('hidden');
-                dom.settingsModalOverlay.classList.remove('hidden');
-            } else {
-                modal.classList.add('hidden');
-                if (dom.settingsModal.classList.contains('hidden') &&
-                    dom.projectModal.classList.contains('hidden') &&
-                    dom.archiveModal.classList.contains('hidden') &&
-                    dom.subscriptionModal.classList.contains('hidden')) {
-                    dom.settingsModalOverlay.classList.add('hidden');
-                }
-            }
-        }
-        function showCustomAlert(title, message) {
-            dom.customModalTitle.textContent = title; dom.customModalMessage.textContent = message;
-            dom.customModalBtnConfirm.textContent = 'OK'; dom.customModalBtnCancel.classList.add('hidden');
-            dom.customModalBtnConfirm.classList.replace('bg-[var(--danger-text)]', 'bg-[var(--accent)]');
-            dom.customModal.classList.remove('hidden'); dom.customModalOverlay.classList.remove('hidden'); confirmCallback = null;
-        }
-        function showCustomConfirm(title, message, callback) {
-            dom.customModalTitle.textContent = title; dom.customModalMessage.textContent = message;
-            dom.customModalBtnConfirm.textContent = 'Confirm'; dom.customModalBtnCancel.classList.remove('hidden');
-            dom.customModalBtnConfirm.classList.replace('bg-[var(--accent)]', 'bg-[var(--danger-text)]');
-            dom.customModal.classList.remove('hidden'); dom.customModalOverlay.classList.remove('hidden'); confirmCallback = callback;
-        }
-        function hideCustomModal() { dom.customModal.classList.add('hidden'); dom.customModalOverlay.classList.add('hidden'); confirmCallback = null; }
+        // Theme & Mode
+        dom.themeToggle.addEventListener('change', () => { const t = dom.themeToggle.checked ? 'light' : 'dark'; localStorage.setItem('cobra-theme-v1', t); applyTheme(t); });
+        function applyTheme(t) { t === 'light' ? dom.htmlEl.classList.add('light-theme') : dom.htmlEl.classList.remove('light-theme'); }
 
-        // --- STORAGE KEYS ---
+        dom.modeToggleNone.addEventListener('click', () => setChatMode('none'));
+        dom.modeToggleWeb.addEventListener('click', () => setChatMode('web'));
+        dom.modeToggleCreative.addEventListener('click', () => setChatMode('creative'));
+        function setChatMode(mode) { currentChatMode = mode; dom.modeToggleNone.classList.remove('active'); dom.modeToggleWeb.classList.remove('active'); dom.modeToggleCreative.classList.remove('active'); if (mode === 'web') dom.modeToggleWeb.classList.add('active'); else if (mode === 'creative') dom.modeToggleCreative.classList.add('active'); else dom.modeToggleNone.classList.add('active'); }
+
+        // --- CHAT LOGIC ---
         const CHAT_STORAGE_KEY = 'cobra-chats-v1';
         const PROJECT_STORAGE_KEY = 'cobra-projects-v1';
 
-        // --- Project Logic (Clean - No Icons) ---
-        function getProjects() {
-            // 5 Default Projects
-            const defaultProjs = [
-                { id: 'default', name: 'All Chats' },
-                { id: 'proj_1', name: 'Personal' },
-                { id: 'proj_2', name: 'Work' },
-                { id: 'proj_3', name: 'Coding' },
-                { id: 'proj_4', name: 'Creative' },
-                { id: 'proj_5', name: 'Study' }
-            ];
-            const stored = JSON.parse(localStorage.getItem(PROJECT_STORAGE_KEY) || '[]');
-            return [...defaultProjs, ...stored];
-        }
-
-        function saveNewProject() {
-            const name = dom.projectNameInput.value.trim();
-            if (!name) return;
-            const projects = JSON.parse(localStorage.getItem(PROJECT_STORAGE_KEY) || '[]');
-            projects.push({ id: crypto.randomUUID(), name });
-            localStorage.setItem(PROJECT_STORAGE_KEY, JSON.stringify(projects));
-            dom.projectNameInput.value = '';
-            toggleModal(dom.projectModal, false);
-            renderProjects();
-        }
-
-        function loadProject(projectId) {
-            currentProjectId = projectId;
-            renderProjects();
-            renderChatList();
-        }
-
-        function renderProjects() {
-            const projects = getProjects();
-            // Renders ONLY the name, no icons
-            dom.projectsListContainer.innerHTML = projects.map(p => `
-                <button onclick="window.loadProject('${p.id}')" 
-                    class="w-full flex items-center gap-2 p-2 rounded-lg text-sm transition-colors ${currentProjectId === p.id ? 'bg-[var(--accent)] text-white' : 'text-[var(--text-secondary)] hover:bg-[var(--bg-tertiary)] hover:text-[var(--text-primary)]'}">
-                    <span class="truncate">${p.name}</span>
-                </button>
-            `).join('');
-            window.loadProject = loadProject;
-        }
-
-        // --- Chat Logic ---
         function getAllChats() { return JSON.parse(localStorage.getItem(CHAT_STORAGE_KEY) || '{}'); }
-        function getChatTitle(chatId) { return getAllChats()[chatId]?.title; }
-
-        function renderChatList() {
-            const allChats = getAllChats();
-            const filteredChats = Object.entries(allChats)
-                .filter(([_, chat]) => !chat.archived)
-                .filter(([_, chat]) => {
-                    if (currentProjectId === 'default') return true;
-                    return chat.projectId === currentProjectId;
-                })
-                .sort(([, a], [, b]) => new Date(b.createdAt) - new Date(a.createdAt));
-
-            dom.chatListContainer.innerHTML = filteredChats.map(([id, chat]) => `
-                <div class="group relative flex items-center p-2 rounded-lg hover:bg-[var(--bg-tertiary)] transition-colors cursor-pointer ${currentChatId === id ? 'bg-[var(--bg-tertiary)] border-l-2 border-[var(--accent)]' : ''}" onclick="window.loadChat('${id}')">
-                    <div class="flex-1 min-w-0 mr-16">
-                        <div class="text-sm font-medium text-[var(--text-primary)] truncate">${chat.title || 'Untitled Chat'}</div>
-                        </div>
-                    <div class="absolute right-2 top-1/2 -translate-y-1/2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity bg-[var(--bg-tertiary)] pl-2">
-                        <button onclick="window.renameChat(event, '${id}')" class="p-1.5 text-[var(--text-secondary)] hover:text-[var(--accent)] rounded-md hover:bg-[var(--bg-secondary)]" title="Rename"><svg class="w-3.5 h-3.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" /></svg></button>
-                        <button onclick="window.archiveChat(event, '${id}')" class="p-1.5 text-[var(--text-secondary)] hover:text-[var(--text-primary)] rounded-md hover:bg-[var(--bg-secondary)]" title="Archive"><svg class="w-3.5 h-3.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" /></svg></button>
-                        <button onclick="window.deleteChat(event, '${id}')" class="p-1.5 text-[var(--text-secondary)] hover:text-[var(--danger-text)] rounded-md hover:bg-[var(--bg-secondary)]" title="Delete"><svg class="w-3.5 h-3.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg></button>
-                    </div>
-                </div>
-            `).join("");
-        }
-
-        // --- Actions ---
-        window.renameChat = (e, chatId) => {
-            e.stopPropagation();
-            const chats = getAllChats();
-            const newTitle = prompt("Rename Chat:", chats[chatId].title);
-            if (newTitle && newTitle.trim()) {
-                chats[chatId].title = newTitle.trim();
-                localStorage.setItem(CHAT_STORAGE_KEY, JSON.stringify(chats));
-                renderChatList();
-            }
-        };
-
-        window.archiveChat = (e, chatId) => {
-            e.stopPropagation();
-            const chats = getAllChats();
-            chats[chatId].archived = true;
-            localStorage.setItem(CHAT_STORAGE_KEY, JSON.stringify(chats));
-            if (currentChatId === chatId) { currentChatId = null; clearChatView(); }
-            renderChatList();
-        };
-
-        window.unarchiveChat = (chatId) => {
-            const chats = getAllChats();
-            chats[chatId].archived = false;
-            localStorage.setItem(CHAT_STORAGE_KEY, JSON.stringify(chats));
-            openArchiveModal(); renderChatList();
-        };
-
-        window.deleteChat = (e, chatId) => {
-            if (e) e.stopPropagation();
-            showCustomConfirm('Delete Chat?', 'Are you sure? This cannot be undone.', () => {
-                const chats = getAllChats();
-                delete chats[chatId];
-                localStorage.setItem(CHAT_STORAGE_KEY, JSON.stringify(chats));
-                if (currentChatId === chatId) { currentChatId = null; clearChatView(); }
-                renderChatList();
-                if (!dom.archiveModal.classList.contains('hidden')) openArchiveModal();
-            });
-        };
-
-        function openArchiveModal() {
-            toggleModal(dom.settingsModal, false);
-            toggleModal(dom.archiveModal, true);
-            const allChats = getAllChats();
-            const archivedChats = Object.entries(allChats).filter(([_, chat]) => chat.archived).sort(([, a], [, b]) => new Date(b.createdAt) - new Date(a.createdAt));
-
-            if (archivedChats.length === 0) { dom.archiveListContainer.innerHTML = `<div class="text-center text-[var(--text-secondary)] mt-10">No archived chats.</div>`; return; }
-
-            dom.archiveListContainer.innerHTML = archivedChats.map(([id, chat]) => `
-                <div class="flex items-center justify-between p-3 bg-[var(--bg-secondary)] rounded-lg border border-[var(--border-primary)]">
-                    <div><div class="font-medium text-[var(--text-primary)]">${chat.title}</div><div class="text-xs text-[var(--text-secondary)]">${new Date(chat.createdAt).toLocaleDateString()}</div></div>
-                    <div class="flex gap-2">
-                        <button onclick="window.unarchiveChat('${id}')" class="px-3 py-1 text-xs font-medium bg-[var(--accent)] text-white rounded hover:bg-[var(--accent-hover)]">Restore</button>
-                        <button onclick="window.deleteChat(null, '${id}')" class="px-3 py-1 text-xs font-medium bg-[var(--bg-tertiary)] text-[var(--danger-text)] rounded hover:bg-[var(--danger-hover)]">Delete</button>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        // --- Main Chat Funcs ---
-        function startNewChat(isPersistent) {
-            currentChatId = isPersistent ? crypto.randomUUID() : 'temp';
-            clearChatView();
-            if (window.innerWidth < 768) toggleMobileSidebar();
-        }
-
-        function saveChatTitle(chatId, title) {
-            if (chatId === 'temp') return;
-            const allChats = getAllChats();
-            if (!allChats[chatId]) allChats[chatId] = { history: [], createdAt: new Date().toISOString(), projectId: currentProjectId === 'default' ? null : currentProjectId, archived: false };
-            allChats[chatId].title = title;
-            localStorage.setItem(CHAT_STORAGE_KEY, JSON.stringify(allChats));
-        }
-
-        function saveChatHistory(chatId, history) {
-            if (chatId === 'temp') return;
-            const allChats = getAllChats();
-            if (allChats[chatId]) { allChats[chatId].history = history; localStorage.setItem(CHAT_STORAGE_KEY, JSON.stringify(allChats)); }
-        }
+        function loadChatHistory(id) { return (id === 'temp' || !id) ? [] : (getAllChats()[id]?.history || []); }
+        function saveChatHistory(id, hist) { if (id === 'temp') return; const c = getAllChats(); if (c[id]) { c[id].history = hist; localStorage.setItem(CHAT_STORAGE_KEY, JSON.stringify(c)); } }
 
         async function handleAsk() {
-            if (!API_KEY || API_KEY === "PASTE_YOUR_API_KEY_HERE") { showCustomAlert("API Key Missing", "Please check API Key"); return; }
-            const finalQuestion = dom.userQuestion.value.trim();
-            if (!finalQuestion && !attachedFileData) return;
+            const q = dom.userQuestion.value.trim();
+            if (!q && !attachedFileData) return;
 
-            if (currentChatId && currentChatId !== 'temp' && !getChatTitle(currentChatId)) {
-                saveChatTitle(currentChatId, finalQuestion.substring(0, 40) || 'New Chat'); renderChatList();
-            } else if (!currentChatId) {
-                currentChatId = crypto.randomUUID(); saveChatTitle(currentChatId, finalQuestion.substring(0, 40) || 'New Conversation'); renderChatList();
-            }
+            if (!currentChatId) { currentChatId = crypto.randomUUID(); saveChatTitle(currentChatId, q.substring(0, 40) || 'New Chat'); renderChatList(); }
 
-            let chatHistory = loadChatHistory(currentChatId);
-            const userMessage = { role: "user", parts: [] };
-            if (finalQuestion) userMessage.parts.push({ text: finalQuestion });
-            if (attachedFileData) userMessage.parts.push({ inlineData: { mimeType: attachedFileData.mimeType, data: attachedFileData.data.split(",")[1] } });
+            let hist = loadChatHistory(currentChatId);
+            const userMsg = { role: "user", parts: [] };
+            if (q) userMsg.parts.push({ text: q });
+            if (attachedFileData) userMsg.parts.push({ inlineData: { mimeType: attachedFileData.mimeType, data: attachedFileData.data.split(",")[1] } });
 
-            appendMessage({ text: finalQuestion, sender: 'user', attachment: attachedFileData });
-            chatHistory.push(userMessage);
+            appendMessage({ text: q, sender: 'user', attachment: attachedFileData });
+            hist.push(userMsg);
             removeAttachment(); dom.userQuestion.value = ''; autoResizeTextarea(); showTypingIndicator();
 
-            const botResponse = await getBotResponse(chatHistory);
-            chatHistory.push({ role: "model", parts: [{ text: botResponse }] });
-            saveChatHistory(currentChatId, chatHistory);
-        }
-
-        async function getBotResponse(history) {
-            removeTypingIndicator();
-            const botMessageContainer = appendMessage({ text: '', sender: 'bot' });
-            let fullResponse = "";
             try {
                 const persona = document.getElementById('persona-select').value;
-                const temperature = currentChatMode === 'creative' ? 1.0 : (currentChatMode === 'web' ? 0.3 : 0.8);
-                generativeModel = genAI.getGenerativeModel({ model: "gemini-2.0-flash", generationConfig: { temperature }, systemInstruction: persona || undefined });
-                const chat = generativeModel.startChat({ history: history });
-                const result = await chat.sendMessageStream(history.pop().parts);
+                const temp = currentChatMode === 'creative' ? 1.0 : (currentChatMode === 'web' ? 0.3 : 0.8);
+                generativeModel = genAI.getGenerativeModel({ model: "gemini-2.0-flash", generationConfig: { temperature: temp }, systemInstruction: persona || undefined });
+
+                const chat = generativeModel.startChat({ history: hist.slice(0, -1) }); // Send previous history
+                const result = await chat.sendMessageStream(userMsg.parts);
+
+                removeTypingIndicator();
+                const botCont = appendMessage({ text: '', sender: 'bot' });
+                let fullText = "";
+
                 for await (const chunk of result.stream) {
-                    fullResponse += chunk.text();
-                    botMessageContainer.innerHTML = markdownConverter.makeHtml(fullResponse + " ▌");
-                    scrollToBottom();
+                    fullText += chunk.text();
+                    botCont.innerHTML = markdownConverter.makeHtml(fullText);
+                    dom.chatContainer.scrollTop = dom.chatContainer.scrollHeight;
                 }
-                botMessageContainer.innerHTML = markdownConverter.makeHtml(fullResponse);
-                processCodeBlocks(botMessageContainer);
-                return fullResponse;
-            } catch (error) {
-                console.error(error); removeTypingIndicator();
-                botMessageContainer.innerHTML = `<p style="color:var(--danger-text);">Error: ${error.message}</p>`;
-                return `Error: ${error.message}`;
+                processCodeBlocks(botCont);
+                hist.push({ role: "model", parts: [{ text: fullText }] });
+                saveChatHistory(currentChatId, hist);
+            } catch (e) {
+                removeTypingIndicator();
+                appendMessage({ text: "Error: " + e.message, sender: 'bot' });
             }
         }
 
-        function loadChatHistory(chatId) { return (chatId === 'temp' || !chatId) ? [] : (getAllChats()[chatId]?.history || []); }
-
-        function appendMessage({ text, sender, attachment = null }) {
+        function appendMessage({ text, sender, attachment }) {
             dom.emptyChatPlaceholder.classList.add('hidden');
-            const messageDiv = document.createElement('div'); messageDiv.classList.add('message-appear');
-            const botIcon = `<div class="w-9 h-9 rounded-full flex-shrink-0 flex items-center justify-center bg-gradient-to-br from-emerald-500 to-emerald-700 shadow-lg shadow-emerald-900/50"><svg class="w-5 h-5 text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 9V7a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v2"/><path d="M12 11v10"/><path d="M4.1 11H20"/><path d="M17.8 11.1 15 15"/><path d="M6.2 11.1 9 15"/><path d="m13 20 4-4"/><path d="m7 20-4-4"/></svg></div>`;
+            const div = document.createElement('div'); div.classList.add('message-appear', 'mt-4');
+            const botIcon = `<div class="w-8 h-8 rounded-full bg-emerald-600 flex items-center justify-center flex-shrink-0 text-white text-xs">AI</div>`;
 
-            let attachmentHtml = '';
-            if (attachment) {
-                attachmentHtml = (attachment.mimeType.startsWith('image/') && attachment.data)
-                    ? `<img src="${attachment.data}" class="mt-2 w-32 rounded-lg" alt="Attachment">`
-                    : `<div class="mt-2 p-2 bg-[var(--bg-tertiary)] rounded-md text-sm flex items-center gap-2"><svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path></svg><span class="truncate">${attachment.name || 'File'}</span></div>`;
-            }
+            let attachHtml = '';
+            if (attachment) attachHtml = (attachment.mimeType.startsWith('image/')) ? `<img src="${attachment.data}" class="mt-2 w-32 rounded-lg">` : `<div class="mt-2 p-2 bg-[var(--bg-tertiary)] rounded text-xs">File: ${attachment.name}</div>`;
 
             if (sender === 'bot') {
-                messageDiv.innerHTML = `<div class="flex items-start gap-3 max-w-3xl mx-auto">${botIcon}<div class="flex-1 pt-1 markdown-content"><div class="content-text"></div></div></div>`;
+                div.innerHTML = `<div class="flex gap-3 max-w-3xl mx-auto">${botIcon}<div class="flex-1 markdown-content"><div class="content-text">${text}</div></div></div>`;
             } else {
-                messageDiv.innerHTML = `<div class="flex justify-end max-w-3xl mx-auto"><div class="user-message-bubble"><div class="content-text" ${(!text && attachment) ? 'style="display:none"' : ''}></div>${attachmentHtml}</div></div>`;
+                div.innerHTML = `<div class="flex justify-end max-w-3xl mx-auto"><div class="user-message-bubble"><div class="content-text">${text}</div>${attachHtml}</div></div>`;
             }
 
-            const contentContainer = messageDiv.querySelector('.content-text');
-            if (text) {
-                if (sender === 'bot') { contentContainer.innerHTML = markdownConverter.makeHtml(text); processCodeBlocks(contentContainer); }
-                else { contentContainer.textContent = text; }
-            }
-            dom.chatContainer.appendChild(messageDiv); scrollToBottom();
-            return contentContainer;
+            const content = div.querySelector('.content-text');
+            if (sender === 'bot' && text) content.innerHTML = markdownConverter.makeHtml(text);
+
+            dom.chatContainer.appendChild(div);
+            dom.chatContainer.scrollTop = dom.chatContainer.scrollHeight;
+            return content;
         }
 
-        // --- Attachments, Theme, Util ---
-        function handleFileSelect(e) {
-            const file = e.target.files[0]; if (!file) return;
-            const reader = new FileReader();
-            reader.onloadend = () => { attachedFileData = { mimeType: file.type, data: reader.result, name: file.name }; showAttachmentPreview(); };
-            reader.readAsDataURL(file); e.target.value = null;
+        // --- UTILS ---
+        function startNewChat(persist) { currentChatId = persist ? crypto.randomUUID() : 'temp'; dom.chatContainer.innerHTML = ''; dom.emptyChatPlaceholder.classList.remove('hidden'); }
+        function saveChatTitle(id, title) { if (id === 'temp') return; const c = getAllChats(); if (!c[id]) c[id] = { history: [], createdAt: new Date().toISOString(), projectId: currentProjectId, archived: false }; c[id].title = title; localStorage.setItem(CHAT_STORAGE_KEY, JSON.stringify(c)); }
+        function renderChatList() {
+            const chats = getAllChats();
+            const filtered = Object.entries(chats).filter(([_, c]) => !c.archived && (currentProjectId === 'default' || c.projectId === currentProjectId)).sort(([, a], [, b]) => new Date(b.createdAt) - new Date(a.createdAt));
+            dom.chatListContainer.innerHTML = filtered.map(([id, c]) => `<div onclick="window.loadChat('${id}')" class="p-2 hover:bg-[var(--bg-tertiary)] rounded cursor-pointer truncate text-sm text-[var(--text-secondary)]">${c.title || 'Untitled'}</div>`).join('');
         }
-        function showAttachmentPreview() {
-            if (!attachedFileData) return;
-            dom.attachmentPreview.classList.remove('hidden');
-            dom.attachmentPreviewContent.innerHTML = (attachedFileData.mimeType.startsWith('image/')) ? `<img src="${attachedFileData.data}" class="w-16 h-16 object-cover rounded-md">` : `<div class="p-2 bg-[var(--bg-tertiary)] rounded-md">📄</div><span class="text-sm truncate">${attachedFileData.name}</span>`;
-        }
-        function removeAttachment() { attachedFileData = null; dom.attachmentPreview.classList.add('hidden'); dom.attachmentPreviewContent.innerHTML = ''; dom.imageUploadInput.value = null; dom.fileUploadInput.value = null; }
+        window.loadChat = (id) => { currentChatId = id; dom.chatContainer.innerHTML = ''; const h = loadChatHistory(id); if (h.length === 0) { dom.emptyChatPlaceholder.classList.remove('hidden'); } else { h.forEach(m => { const txt = m.parts[0].text; appendMessage({ text: txt, sender: m.role === 'user' ? 'user' : 'bot' }); }); } };
 
-        function handleThemeChange() {
-            const newTheme = dom.themeToggle.checked ? 'light' : 'dark';
-            localStorage.setItem('cobra-theme-v1', newTheme); applyTheme(newTheme);
-        }
-        function applyTheme(theme) { theme === 'light' ? dom.htmlEl.classList.add('light-theme') : dom.htmlEl.classList.remove('light-theme'); }
+        function autoResizeTextarea() { dom.userQuestion.style.height = 'auto'; dom.userQuestion.style.height = dom.userQuestion.scrollHeight + 'px'; }
+        function showTypingIndicator() { const d = document.createElement('div'); d.id = "typing"; d.innerHTML = '<div class="flex gap-3 max-w-3xl mx-auto mt-4"><div class="w-8 h-8 rounded-full bg-emerald-600"></div><div class="dot-flashing mt-3"></div></div>'; dom.chatContainer.appendChild(d); }
+        function removeTypingIndicator() { document.getElementById('typing')?.remove(); }
 
-        function showTypingIndicator() {
-            const indicator = document.createElement("div"); indicator.id = "typing-indicator"; indicator.classList.add('message-appear');
-            indicator.innerHTML = `<div class="flex items-start gap-3 max-w-3xl mx-auto"><div class="w-9 h-9 rounded-full flex items-center justify-center bg-gradient-to-br from-emerald-500 to-emerald-700 shadow-lg shadow-emerald-900/50"><svg class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 9V7a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v2"/><path d="M12 11v10"/></svg></div><div class="flex-1 pt-1 flex items-center" style="height: 2.25rem;"><div class="dot-flashing"></div></div></div>`;
-            dom.chatContainer.appendChild(indicator); scrollToBottom(); dom.askBtn.disabled = true;
-        }
-        function removeTypingIndicator() { document.getElementById("typing-indicator")?.remove(); dom.askBtn.disabled = false; dom.userQuestion.focus(); }
+        function handleFileSelect(e) { const f = e.target.files[0]; if (!f) return; const r = new FileReader(); r.onload = () => { attachedFileData = { mimeType: f.type, data: r.result, name: f.name }; dom.attachmentPreview.classList.remove('hidden'); dom.attachmentPreviewContent.textContent = f.name; }; r.readAsDataURL(f); }
+        function removeAttachment() { attachedFileData = null; dom.attachmentPreview.classList.add('hidden'); }
 
         function processCodeBlocks(el) {
             el.querySelectorAll("pre").forEach(pre => {
                 const code = pre.querySelector("code");
-                if (code && !pre.parentElement.classList.contains("code-wrapper")) {
-                    const lang = [...code.classList].find(c => c.startsWith("language-"))?.replace("language-", "") || "text";
-                    const wrapper = document.createElement("div"); wrapper.className = "code-wrapper rounded-lg border border-[var(--border-primary)] overflow-hidden";
-                    wrapper.innerHTML = `<div class="code-header flex justify-between items-center p-2"><span class="text-xs font-sans">${lang}</span><button class="copy-btn text-xs px-2 py-1 rounded-md hover:bg-[var(--bg-primary)]">Copy</button></div>`;
+                if (code) {
+                    const wrapper = document.createElement("div"); wrapper.className = "rounded-lg border border-[var(--border-primary)] overflow-hidden mt-2";
+                    wrapper.innerHTML = `<div class="bg-[var(--bg-tertiary)] p-1 text-right"><button class="text-xs px-2 py-1 text-[var(--text-secondary)] hover:text-white" onclick="navigator.clipboard.writeText(this.parentElement.nextElementSibling.innerText)">Copy</button></div>`;
                     pre.parentNode.insertBefore(wrapper, pre); wrapper.appendChild(pre);
-                    wrapper.querySelector(".copy-btn").addEventListener("click", () => { navigator.clipboard.writeText(code.innerText); });
                     hljs.highlightElement(code);
                 }
             });
         }
 
-        function setChatMode(mode) {
-            currentChatMode = mode; dom.modeToggleNone.classList.remove('active'); dom.modeToggleWeb.classList.remove('active'); dom.modeToggleCreative.classList.remove('active');
-            if (mode === 'web') dom.modeToggleWeb.classList.add('active'); else if (mode === 'creative') dom.modeToggleCreative.classList.add('active'); else dom.modeToggleNone.classList.add('active');
+        // Projects Logic
+        function getProjects() { const p = JSON.parse(localStorage.getItem(PROJECT_STORAGE_KEY) || '[]'); return [{ id: 'default', name: 'All Chats' }, ...p]; }
+        function renderProjects() { dom.projectsListContainer.innerHTML = getProjects().map(p => `<button onclick="window.switchProject('${p.id}')" class="w-full text-left p-2 rounded text-sm hover:bg-[var(--bg-tertiary)] text-[var(--text-secondary)] truncate">${p.name}</button>`).join(''); }
+        function saveNewProject() { const n = dom.projectNameInput.value.trim(); if (!n) return; const p = JSON.parse(localStorage.getItem(PROJECT_STORAGE_KEY) || '[]'); p.push({ id: crypto.randomUUID(), name: n }); localStorage.setItem(PROJECT_STORAGE_KEY, JSON.stringify(p)); toggleModal(dom.projectModal, dom.settingsModalOverlay, false); renderProjects(); }
+        window.switchProject = (pid) => { currentProjectId = pid; renderChatList(); };
+
+        // Archives Logic
+        function openArchiveModal() {
+            toggleModal(dom.archiveModal, dom.settingsModalOverlay, true);
+            const chats = getAllChats();
+            const arch = Object.entries(chats).filter(([_, c]) => c.archived);
+            dom.archiveListContainer.innerHTML = arch.length ? arch.map(([id, c]) => `<div class="flex justify-between p-2 border-b border-[var(--border-primary)]"><span class="truncate">${c.title}</span><button onclick="window.unarchive('${id}')" class="text-[var(--accent)] text-xs">Restore</button></div>`).join('') : '<div class="text-center p-4 text-[var(--text-secondary)]">No archives</div>';
         }
+        window.unarchive = (id) => { const c = getAllChats(); c[id].archived = false; localStorage.setItem(CHAT_STORAGE_KEY, JSON.stringify(c)); openArchiveModal(); renderChatList(); };
 
-        function exportChat() {
-            if (!currentChatId || currentChatId === 'temp') { showCustomAlert("No Chat", "Select a chat first."); return; }
-            const chatHistory = loadChatHistory(currentChatId);
-            const text = chatHistory.map(t => `[${t.role}]: ${t.parts[0].text}`).join('\n\n');
-            const blob = new Blob([text], { type: 'text/plain' });
-            const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'chat.txt'; a.click();
-        }
-
-        function handleChatSearch() {
-            const filter = dom.chatSearchInput.value.toLowerCase();
-            Array.from(dom.chatListContainer.children).forEach(item => {
-                item.style.display = item.innerText.toLowerCase().includes(filter) ? 'flex' : 'none';
-            });
-        }
-
-        function clearChatView() {
-            dom.chatContainer.innerHTML = ''; dom.emptyChatPlaceholder.classList.remove('hidden');
-            dom.userQuestion.value = ''; dom.userQuestion.focus(); setChatMode('none'); removeAttachment();
-        }
-        function toggleMobileSidebar() { dom.sidebar.classList.toggle('sidebar-closed'); dom.overlay.classList.toggle('hidden'); }
-        function toggleDesktopSidebar() { dom.sidebar.classList.toggle('sidebar-expanded'); }
-        function scrollToBottom() { dom.chatContainer.scrollTop = dom.chatContainer.scrollHeight; }
-        function autoResizeTextarea() { dom.userQuestion.style.height = 'auto'; dom.userQuestion.style.height = `${dom.userQuestion.scrollHeight}px`; }
-
-        window.loadChat = window.loadChat; window.deleteChat = window.deleteChat; window.loadProject = window.loadProject;
-
-        function init() {
-            try { genAI = new GoogleGenerativeAI(API_KEY); } catch (e) { console.error(e); }
-            const savedTheme = localStorage.getItem('cobra-theme-v1') || 'dark';
-            applyTheme(savedTheme); dom.themeToggle.checked = (savedTheme === 'light');
-            renderProjects(); renderChatList(); autoResizeTextarea(); setChatMode('none');
-            setTimeout(() => { dom.splashScreen.classList.add('hidden'); }, 1500);
-        }
-
-        init();
+        // Start
+        checkAuth();
     </script>
-    <script>document.addEventListener("contextmenu", e => e.preventDefault()); document.addEventListener("keydown", e => { if (e.key === "F12" || (e.ctrlKey && e.shiftKey && (e.key === "I" || e.key === "J")) || (e.ctrlKey && e.key === "U")) { e.preventDefault(); alert("Inspect Disabled 🚫"); } });</script>
 </body>
 
 </html>
