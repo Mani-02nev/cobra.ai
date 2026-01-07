@@ -4,8 +4,8 @@
 <head>
      <meta charset="UTF-8">
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <title>Cobra AI - Professional Assistant</title>
-     <meta name="description" content="Cobra AI - Your intelligent conversational assistant with advanced features">
+     <title>THINK.IO AI - Professional Assistant</title>
+     <meta name="description" content="THINK.IO AI - Your intelligent conversational assistant with advanced features">
 
      <!-- Google Fonts -->
      <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -1112,7 +1112,7 @@
           <div class="sidebar-header">
                <div class="logo">
                     <div class="logo-icon">C</div>
-                    <span>Cobra AI</span>
+                    <span>THINK.IO AI</span>
                </div>
           </div>
 
@@ -1162,7 +1162,7 @@
                          <div class="empty-state-icon">
                               <i class="bi bi-chat-dots"></i>
                          </div>
-                         <h2 class="empty-state-title">Welcome to Cobra AI</h2>
+                         <h2 class="empty-state-title">Welcome to THINK.IO AI</h2>
                          <p class="empty-state-description">
                               Start a conversation by typing a message below. You can also upload images and files to
                               enhance your chat.
@@ -1252,7 +1252,7 @@
                     </div>
                     <div class="setting-item">
                          <label class="setting-label">About</label>
-                         <p class="setting-description">Cobra AI - Professional Conversational Assistant<br>Version 2.0
+                         <p class="setting-description">THINK.IO AI - Professional Conversational Assistant<br>Version 2.0
                          </p>
                     </div>
                </div>
@@ -1303,8 +1303,8 @@
           // State
           let chatHistory = [];
           let currentChatId = null;
-          let allChats = JSON.parse(localStorage.getItem('cobraChats')) || [];
-          let archivedChats = JSON.parse(localStorage.getItem('cobraArchivedChats')) || [];
+          let allChats = JSON.parse(localStorage.getItem('THINK.IOChats')) || [];
+          let archivedChats = JSON.parse(localStorage.getItem('THINK.IOArchivedChats')) || [];
           let attachments = [];
 
           // Initialize
@@ -1397,11 +1397,11 @@
           }
 
           function saveChats() {
-               localStorage.setItem('cobraChats', JSON.stringify(allChats));
+               localStorage.setItem('THINK.IOChats', JSON.stringify(allChats));
           }
 
           function saveArchivedChats() {
-               localStorage.setItem('cobraArchivedChats', JSON.stringify(archivedChats));
+               localStorage.setItem('THINK.IOArchivedChats', JSON.stringify(archivedChats));
           }
 
           function loadChatList() {
