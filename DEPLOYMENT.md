@@ -196,7 +196,7 @@ Then open: `http://localhost:8000`
 - **Solution**: This is a static site, no build needed. Ensure `vercel.json` is present.
 
 **Problem**: 404 errors
-- **Solution**: Check `vercel.json` routes configuration.
+- **Solution**: Check `vercel.json` rewrites configuration.
 
 **Problem**: Environment variables not working
 - **Solution**: Redeploy after adding variables. Check variable names match code.
