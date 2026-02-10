@@ -800,16 +800,10 @@
 
 
     <script type="module">
-        // --- NEW: Import Gemini SDK ---
+        
         import { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold } from "https://cdn.jsdelivr.net/npm/@google/generative-ai/+esm";
 
-        // --- ⚠️ DANGER: API KEY ⚠️ ---
-        // PASTE YOUR GEMINI API KEY HERE
-        // This is NOT secure for production. Anyone can steal your key.
-        // Use a backend server or Firebase for a real website.
-        const API_KEY = "AIzaSyAg7F8FCeoquqdCsGobVnA371XMGgnLCFE";
-        // ---------------------------------
-
+       
         // --- Global State ---
         let currentChatId = null;
         let currentChatMode = 'none'; // 'none', 'web', 'creative'
